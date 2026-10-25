@@ -1,0 +1,24 @@
+{
+  "remote_url": "https://github.com/kevingtlin/Market-Data-Lab.git",
+  "branch": "main",
+  "local_head_sha": "78fd60f8bf3a1cebe198828147e54e4ed32385d8",
+  "remote_head_sha": "78fd60f8bf3a1cebe198828147e54e4ed32385d8",
+  "is_synchronized_with_remote": true,
+  "remote_check_status": "SUCCESS",
+  "last_commit_date_utc": "2026-10-19T22:18:49+08:00",
+  "last_commit_author": "kevingtlin",
+  "last_commit_message": "data: \u00e6\u203a\u00b4\u00e6\u2013\u00b0 XAUUSD bid/ask \u00e8\u00b3\u2021\u00e6\u2013\u2122\u00e8\u2021\u00b3 2026-10-19",
+  "readme_reported_end_utc": "2026-10-19 13:59:00 UTC",
+  "metadata_reported_end_utc": "2026-10-19 13:59:00 UTC",
+  "remote_verified_end_utc": "2026-10-19 13:59:00 UTC",
+  "local_data_end_utc": "2026-10-19 13:59:00 UTC",
+  "dataset_lag_hours": 45.7,
+  "has_automated_ci_daily_sync": false,
+  "update_frequency_mode": "IRREGULAR_MANUAL_BATCH",
+  "audit_notes": [
+    "GitHub repository does NOT possess automated daily CI/CD or GitHub Actions workflows.",
+    "Commits are manual, irregular batch updates produced by repository owner via local dukascopy-node.",
+    "Local computer currently holds: 2024-01, 2026-10 (2 months); remote repository contains 202 months.",
+    "Local data end is 2026-10-19 13:59:00 UTC; remote verified end is 2026-10-19 13:59:00 UTC."
+  ]
+}

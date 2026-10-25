@@ -1,0 +1,1 @@
+"""US stocks market adapter."""
