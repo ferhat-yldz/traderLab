@@ -1,0 +1,130 @@
+===================================================================================================================
+PHASE 4E-B: REAL XAUUSD DATA AUDIT & RISK MANAGEMENT ENGINE VERIFICATION
+Window: 2026-09-15T00:00:00+00:00 -> 2026-10-15T23:59:59+00:00
+===================================================================================================================
+
+[DATA LOAD] Loaded 47608 BID M1 candles, 47608 ASK M1 candles in 2.086s
+
+[PHASE 4E-A PLANS FOUND] Total: 26 trade plans across 8 series.
+
+===================================================================================================================
+PHASE 4E-B RISK ASSESSMENT & POSITION SIZING RESULTS (ALL 26 TRADE PLANS)
+===================================================================================================================
+Idx  | Plan ID                | Dir   | Entry Px  | SL Method      | SL Px     | TP Px     | Gross R | Net R   | Alloc Lots | Cash Risk  | Status           | Rejection Reason
+-------------------------------------------------------------------------------------------------------------------------------------------------
+1    | XAUUSD:market_data_lab | SHORT | 4227.95   | ZONE_DISTAL_BO | 4256.14   | 4171.57   | 2.00R   | 1.97R   | 0.35       | $996.10    | RISK_APPROVED    | NONE
+2    | XAUUSD:market_data_lab | SHORT | 4121.02   | ZONE_DISTAL_BO | 4135.86   | 4091.33   | 2.00R   | 1.95R   | 0.66       | $997.49    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+3    | XAUUSD:market_data_lab | LONG  | 4368.06   | ZONE_DISTAL_BO | 4361.34   | 4381.48   | 2.00R   | 1.88R   | 1.43       | $998.86    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+4    | XAUUSD:market_data_lab | SHORT | 4356.70   | ZONE_DISTAL_BO | 4357.69   | 4354.74   | 1.99R   | 1.35R   | 7.96       | $998.98    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+5    | XAUUSD:market_data_lab | SHORT | 4331.70   | ZONE_DISTAL_BO | 4339.45   | 4316.18   | 2.00R   | 1.90R   | 1.24       | $995.10    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+6    | XAUUSD:market_data_lab | SHORT | 4270.80   | ZONE_DISTAL_BO | 4274.06   | 4264.28   | 2.00R   | 1.77R   | 2.83       | $998.99    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+7    | XAUUSD:market_data_lab | SHORT | 4236.58   | ZONE_DISTAL_BO | 4256.14   | 4197.48   | 2.00R   | 1.96R   | 0.50       | $991.25    | RISK_APPROVED    | NONE
+8    | XAUUSD:market_data_lab | SHORT | 4169.64   | ZONE_DISTAL_BO | 4176.52   | 4155.90   | 2.00R   | 1.89R   | 1.39       | $993.16    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+9    | XAUUSD:market_data_lab | SHORT | 4158.74   | ZONE_DISTAL_BO | 4174.66   | 4126.90   | 2.00R   | 1.95R   | 0.61       | $987.59    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+10   | XAUUSD:market_data_lab | LONG  | 4157.17   | ZONE_DISTAL_BO | 4144.62   | 4182.27   | 2.00R   | 1.94R   | 0.78       | $999.96    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+11   | XAUUSD:market_data_lab | LONG  | 4157.17   | ZONE_DISTAL_BO | 4144.62   | 4182.27   | 2.00R   | 1.94R   | 0.78       | $999.96    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+12   | XAUUSD:market_data_lab | LONG  | 4200.18   | ZONE_DISTAL_BO | 4198.93   | 4202.70   | 2.00R   | 1.47R   | 6.55       | $998.88    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+13   | XAUUSD:market_data_lab | SHORT | 4120.72   | ZONE_DISTAL_BO | 4135.86   | 4090.42   | 2.00R   | 1.95R   | 0.64       | $986.56    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+14   | XAUUSD:market_data_lab | SHORT | 4229.66   | ZONE_DISTAL_BO | 4258.74   | 4171.50   | 2.00R   | 1.97R   | 0.34       | $997.90    | RISK_APPROVED    | NONE
+15   | XAUUSD:market_data_lab | SHORT | 4121.50   | ZONE_DISTAL_BO | 4136.35   | 4091.78   | 2.00R   | 1.95R   | 0.66       | $998.25    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+16   | XAUUSD:market_data_lab | LONG  | 4368.74   | ZONE_DISTAL_BO | 4362.00   | 4382.22   | 2.00R   | 1.88R   | 1.42       | $995.42    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+17   | XAUUSD:market_data_lab | SHORT | 4357.40   | ZONE_DISTAL_BO | 4358.52   | 4355.16   | 2.00R   | 1.42R   | 7.19       | $999.41    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+18   | XAUUSD:market_data_lab | SHORT | 4332.42   | ZONE_DISTAL_BO | 4340.21   | 4316.86   | 2.00R   | 1.90R   | 1.24       | $998.82    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+19   | XAUUSD:market_data_lab | SHORT | 4271.51   | ZONE_DISTAL_BO | 4274.92   | 4264.69   | 2.00R   | 1.78R   | 2.71       | $997.28    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+20   | XAUUSD:market_data_lab | SHORT | 4238.21   | ZONE_DISTAL_BO | 4258.74   | 4197.15   | 2.00R   | 1.96R   | 0.48       | $998.40    | RISK_APPROVED    | NONE
+21   | XAUUSD:market_data_lab | SHORT | 4170.28   | ZONE_DISTAL_BO | 4177.23   | 4156.40   | 2.00R   | 1.89R   | 1.38       | $995.67    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+22   | XAUUSD:market_data_lab | SHORT | 4159.29   | ZONE_DISTAL_BO | 4175.20   | 4127.47   | 2.00R   | 1.95R   | 0.61       | $986.98    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+23   | XAUUSD:market_data_lab | LONG  | 4157.74   | ZONE_DISTAL_BO | 4145.33   | 4182.56   | 2.00R   | 1.94R   | 0.78       | $989.04    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+24   | XAUUSD:market_data_lab | LONG  | 4157.74   | ZONE_DISTAL_BO | 4145.33   | 4182.56   | 2.00R   | 1.94R   | 0.78       | $989.04    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+25   | XAUUSD:market_data_lab | LONG  | 4201.00   | ZONE_DISTAL_BO | 4199.80   | 4203.38   | 2.00R   | 1.44R   | 6.82       | $999.13    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+26   | XAUUSD:market_data_lab | SHORT | 4121.20   | ZONE_DISTAL_BO | 4136.35   | 4090.88   | 2.00R   | 1.95R   | 0.64       | $987.20    | RISK_BLOCKED     | PLAN_NOT_ACTIVE
+
+===================================================================================================================
+PHASE 4E-B RECONCILIATION SUMMARY
+===================================================================================================================
+Total Plans Assessed:     26
+RISK_APPROVED:            4
+RISK_BLOCKED:             22
+Reconciliation Proof:     4 approved + 22 blocked = 26
+
+===================================================================================================================
+STAGE 18: CHRONOLOGICAL POINT-IN-TIME REPLAY (5 REPRESENTATIVE TARGETS)
+===================================================================================================================
+
+--- REPLAY PLAN 1: XAUUSD:market_data_lab_m1_derived_h4:BID:H4:SHORT:f977bfb444c5:c78a53f74a1d:ZONE_MIDPOINT_REFERENCE:585da71a [SHORT] ---
+  Snapshot 1 (T-1h Before Setup 2026-09-28 07:00 UTC): Exists in PIT = False
+  Snapshot 2 (At Setup Confirmation 2026-09-28 08:00 UTC): Status = RISK_APPROVED
+  Snapshot 3 (At Zone Available 2026-09-28 08:00 UTC): SL = 4256.14, Status = RISK_APPROVED
+  Snapshot 4 (At Plan Available 2026-09-28 08:00 UTC): Lots = 0.35, Status = RISK_APPROVED
+  Snapshot 5 (At Final As-Of 2026-10-15 23:59 UTC): Final Status = RISK_APPROVED, Rejections = []
+
+--- REPLAY PLAN 2: XAUUSD:market_data_lab_m1_derived_h4:BID:H4:SHORT:184975973e6b:389f977518f5:ZONE_MIDPOINT_REFERENCE:585da71a [SHORT] ---
+  Snapshot 1 (T-1h Before Setup 2026-10-14 19:00 UTC): Exists in PIT = False
+  Snapshot 2 (At Setup Confirmation 2026-10-14 20:00 UTC): Status = RISK_BLOCKED
+  Snapshot 3 (At Zone Available 2026-10-14 20:00 UTC): SL = 4135.86, Status = RISK_BLOCKED
+  Snapshot 4 (At Plan Available 2026-10-14 20:00 UTC): Lots = 0.66, Status = RISK_BLOCKED
+  Snapshot 5 (At Final As-Of 2026-10-15 23:59 UTC): Final Status = RISK_BLOCKED, Rejections = ['PLAN_NOT_ACTIVE']
+
+--- REPLAY PLAN 3: XAUUSD:market_data_lab_m1_derived_h2:BID:H2:LONG:8ca14075a516:906c52eec3cb:ZONE_MIDPOINT_REFERENCE:585da71a [LONG] ---
+  Snapshot 1 (T-1h Before Setup 2026-09-18 19:00 UTC): Exists in PIT = False
+  Snapshot 2 (At Setup Confirmation 2026-09-18 20:00 UTC): Status = RISK_BLOCKED
+  Snapshot 3 (At Zone Available 2026-09-18 20:00 UTC): SL = 4361.34, Status = RISK_BLOCKED
+  Snapshot 4 (At Plan Available 2026-09-18 20:00 UTC): Lots = 1.43, Status = RISK_BLOCKED
+  Snapshot 5 (At Final As-Of 2026-10-15 23:59 UTC): Final Status = RISK_BLOCKED, Rejections = ['PLAN_NOT_ACTIVE']
+
+--- REPLAY PLAN 4: XAUUSD:market_data_lab_m1_derived_h2:BID:H2:SHORT:26c5f57a921f:fcc2a467f317:ZONE_MIDPOINT_REFERENCE:585da71a [SHORT] ---
+  Snapshot 1 (T-1h Before Setup 2026-09-22 07:00 UTC): Exists in PIT = False
+  Snapshot 2 (At Setup Confirmation 2026-09-22 08:00 UTC): Status = RISK_BLOCKED
+  Snapshot 3 (At Zone Available 2026-09-21 08:00 UTC): SL = 4357.69, Status = RISK_BLOCKED
+  Snapshot 4 (At Plan Available 2026-09-22 08:00 UTC): Lots = 7.96, Status = RISK_BLOCKED
+  Snapshot 5 (At Final As-Of 2026-10-15 23:59 UTC): Final Status = RISK_BLOCKED, Rejections = ['PLAN_NOT_ACTIVE']
+
+--- REPLAY PLAN 5: XAUUSD:market_data_lab_m1_derived_h2:BID:H2:SHORT:6b0d2b2dd0b1:147ff8a0bf99:ZONE_MIDPOINT_REFERENCE:585da71a [SHORT] ---
+  Snapshot 1 (T-1h Before Setup 2026-09-23 13:00 UTC): Exists in PIT = False
+  Snapshot 2 (At Setup Confirmation 2026-09-23 14:00 UTC): Status = RISK_BLOCKED
+  Snapshot 3 (At Zone Available 2026-09-22 08:00 UTC): SL = 4339.45, Status = RISK_BLOCKED
+  Snapshot 4 (At Plan Available 2026-09-23 14:00 UTC): Lots = 1.24, Status = RISK_BLOCKED
+  Snapshot 5 (At Final As-Of 2026-10-15 23:59 UTC): Final Status = RISK_BLOCKED, Rejections = ['PLAN_NOT_ACTIVE']
+
+===================================================================================================================
+STAGE 15: SAMPLE EXPLAINABILITY AUDIT CARD (FIRST APPROVED PLAN)
+===================================================================================================================
+=== ICT RISK ASSESSMENT [SHORT] ===
+Assessment ID:          RISK_XAUUSD:market_data_lab_m1_derived_h_5af19943a52a
+Trade Plan ID:          XAUUSD:market_data_lab_m1_derived_h4:BID:H4:SHORT:f977bfb444c5:c78a53f74a1d:ZONE_MIDPOINT_REFERENCE:585da71a
+Source Setup ID:        XAUUSD:market_data_lab_m1_derived_h4:BID:H4:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R:20260928080000
+Instrument & Series:    XAUUSD | BID | H4
+Status:                 RISK_APPROVED
+Entry Reference Price:  4227.950
+Stop-Loss Level:        4256.14 (ZONE_DISTAL_BOUNDARY, dist: 28.190)
+Take-Profit Target:     4171.57 (FIXED_R_MULTIPLE, dist: 56.380)
+Gross Risk/Reward:      2.00R
+Net Risk/Reward:        1.97R
+Risk Budget:            $1000.00
+Allocated Position:     0.35 lots (Estimated Cash Risk: $996.10)
+Cash Flows:             Gross Loss: $986.65 | Gross Reward: $1973.30 | Net Reward: $1963.85
+Execution Costs:        Comm: $0.70 | Spread: $8.75 | Slip: $0.00 (Total: $9.45)
+Contract & Broker Spec: 100 units/lot | Step: 0.01 | Source: HYPOTHETICAL_BROKER_SCENARIO
+Rejection Reasons:      NONE
+Assessment Time:        2026-10-15 23:59:59 UTC
+As-Of Snapshot:         2026-10-15 23:59:59 UTC
+Related Structural IDs: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R, XAUUSD_market_data_lab_m1_derived_h4_BID_H4_DISPLACEMENT_BEARISH_20260928T000000Z, XAUUSD:market_data_lab_m1_derived_h4:BID:H4:20260928080000:BEARISH:r0
+
+===================================================================================================================
+STAGE 19: PERFORMANCE & BENCHMARK RECONCILIATION
+===================================================================================================================
+Data Loading:               2.0863s  ( 60.9%)
+Resampling (M1->TF):        1.1982s  ( 35.0%)
+Existing Features:          0.1272s  (  3.7%)
+ICT Setup Assembly:         0.0026s  (  0.1%)
+Trade Plan Generation:      0.0018s  (  0.1%)
+Stop-Loss Calculation:      0.0000s  (  0.0%)
+Take-Profit Calculation:    0.0000s  (  0.0%)
+Risk/Reward Calculation:    0.0000s  (  0.0%)
+Position Sizing:            0.0016s  (  0.0%)
+PIT Filtering:              0.0001s  (  0.0%)
+-----------------------------------------------------------------
+Sub-stages Sum:             3.4178s
+Total Pipeline:             3.4248s
+Loop & Audit Overhead:      0.0071s  (  0.2%)
+===================================================================================================================

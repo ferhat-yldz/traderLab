@@ -18,6 +18,7 @@ from traderlab.core.types import (
     Timeframe,
 )
 from traderlab.domain.instruments.candle import Candle
+from traderlab.infrastructure.calendars.forex_session import XAUUSDTradingCalendar
 
 NEW_YORK_TZ = zoneinfo.ZoneInfo("America/New_York")
 
@@ -58,16 +59,16 @@ class WindowCompleteness(enum.Enum):
     """Quality and completeness state of an aggregated timeframe window."""
 
     COMPLETE = "COMPLETE"
-    """100% of expected M1 bars are present in the window."""
+    """100% of expected trading M1 bars during open session are present in the window."""
 
     PARTIAL = "PARTIAL"
-    """Some M1 bars are present, but less than expected (e.g. 52/60 for H1)."""
+    """Some M1 bars are present, but active trading minutes are missing during open session."""
 
     EMPTY = "EMPTY"
     """No M1 bars present in window."""
 
     ALL_SYNTHETIC_CLOSED = "ALL_SYNTHETIC_CLOSED"
-    """All M1 bars in window are synthetic carry-forward bars during market closed periods."""
+    """All M1 bars in window are synthetic carry-forward bars during verified market closed periods."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -83,6 +84,26 @@ class ResampledCandle:
     completeness: WindowCompleteness
     first_m1_open: datetime
     last_m1_close: datetime
+    expected_trading_minutes: int = 0
+    missing_trading_minutes: int = 0
+    market_closed_minutes: int = 0
+    unexpected_trading_minutes: int = 0
+    duplicate_trading_minutes: int = 0
+
+    @property
+    def calendar_minutes(self) -> int:
+        """Total calendar duration in minutes for the window."""
+        return self.expected_m1_count
+
+    @property
+    def is_session_complete(self) -> bool:
+        """Return True if all expected trading minutes during market open are present and zero anomalies exist."""
+        return (
+            self.missing_trading_minutes == 0
+            and self.duplicate_trading_minutes == 0
+            and self.unexpected_trading_minutes == 0
+            and self.expected_trading_minutes > 0
+        )
 
 
 def get_expected_m1_count(
@@ -198,6 +219,8 @@ def resample_m1_candles(
     *,
     daily_close_mode: DailyCloseMode = DailyCloseMode.UTC_MIDNIGHT,
     source_id_suffix: str | None = None,
+    calendar: XAUUSDTradingCalendar | None = None,
+    use_session_calendar: bool = True,
 ) -> list[ResampledCandle]:
     """Resample an M1 candle sequence into higher timeframe candles deterministically.
 
@@ -210,13 +233,18 @@ def resample_m1_candles(
     - Window intervals: [window_open, window_close) half-open.
     - Point-in-Time: availability_confidence=UNKNOWN, published_at=None, available_at=None.
     - Synthetic flagging: is_synthetic=True only if ALL M1 bars in window are synthetic.
-    - Completeness: is_closed=True only if window is 100% complete (present == expected).
+    - Session-Aware Completeness:
+      - Evaluates expected trading minutes from trading calendar.
+      - Closed market hours (rollover, weekends, holidays) are not counted as data loss.
+      - is_closed=True if all expected trading minutes during market open are present (missing_trading_minutes == 0).
 
     Args:
         candles: Sequence of input M1 Candle objects.
-        target_timeframe: Target timeframe (M5, M15, M30, H1, H4, D1).
+        target_timeframe: Target timeframe (M5, M15, M30, H1, H2, H4, D1, W1).
         daily_close_mode: Daily closing convention for D1 (UTC_MIDNIGHT or NEW_YORK_1700).
         source_id_suffix: Optional suffix for derived source_id (defaults to f"_derived_{tf.name.lower()}").
+        calendar: Optional trading calendar instance (defaults to XAUUSDTradingCalendar when use_session_calendar=True).
+        use_session_calendar: If True, evaluates session-aware trading minutes; if False, uses pure calendar minutes.
 
     Returns:
         List of ResampledCandle objects sorted chronologically by window_open.
@@ -255,6 +283,10 @@ def resample_m1_candles(
         w_open, w_close = get_window_boundaries(c.open_time, target_timeframe, daily_close_mode)
         windows[(w_open, w_close)].append(c)
 
+    cal: XAUUSDTradingCalendar | None = None
+    if use_session_calendar:
+        cal = calendar if calendar is not None else XAUUSDTradingCalendar()
+
     resampled: list[ResampledCandle] = []
     suffix = source_id_suffix or f"_derived_{target_timeframe.name.lower()}"
 
@@ -262,21 +294,53 @@ def resample_m1_candles(
         # Sort candles within window strictly by open_time
         sorted_bars = sorted(window_candles, key=lambda bar: bar.open_time)
 
-        expected_count = get_expected_m1_count(target_timeframe, w_open, w_close)
+        calendar_minutes = get_expected_m1_count(target_timeframe, w_open, w_close)
         present_count = len(sorted_bars)
         synthetic_count = sum(1 for b in sorted_bars if b.is_synthetic)
         active_count = present_count - synthetic_count
 
-        # Determine completeness state
-        if present_count == expected_count:
-            if synthetic_count == present_count:
-                completeness = WindowCompleteness.ALL_SYNTHETIC_CLOSED
-            else:
-                completeness = WindowCompleteness.COMPLETE
-        elif present_count > 0:
-            completeness = WindowCompleteness.PARTIAL
+        if cal is not None:
+            expected_open_timestamps: set[datetime] = set()
+            cur = w_open
+            step = timedelta(minutes=1)
+            while cur < w_close:
+                if cal.is_market_open(cur):
+                    expected_open_timestamps.add(cur)
+                cur += step
+            expected_trading_mins = len(expected_open_timestamps)
+            market_closed_mins = max(0, calendar_minutes - expected_trading_mins)
         else:
+            expected_open_timestamps = {
+                w_open + i * timedelta(minutes=1) for i in range(calendar_minutes)
+            }
+            expected_trading_mins = calendar_minutes
+            market_closed_mins = 0
+
+        active_bars = [b for b in sorted_bars if not b.is_synthetic]
+        active_timestamps = [b.open_time for b in active_bars]
+        active_timestamps_set = set(active_timestamps)
+        duplicate_trading_mins = len(active_bars) - len(active_timestamps_set)
+        missing_open_timestamps = expected_open_timestamps - active_timestamps_set
+        unexpected_closed_timestamps = active_timestamps_set - expected_open_timestamps
+        missing_trading_mins = len(missing_open_timestamps)
+        unexpected_trading_mins = len(unexpected_closed_timestamps)
+
+        # Determine completeness state
+        if present_count == 0:
             completeness = WindowCompleteness.EMPTY
+        elif active_count == 0 and synthetic_count > 0:
+            completeness = WindowCompleteness.ALL_SYNTHETIC_CLOSED
+        elif (
+            missing_trading_mins == 0
+            and duplicate_trading_mins == 0
+            and unexpected_trading_mins == 0
+            and (expected_trading_mins > 0 or active_count > 0)
+        ):
+            completeness = WindowCompleteness.COMPLETE
+        elif active_count == 0 and expected_trading_mins == 0 and synthetic_count == 0:
+            completeness = WindowCompleteness.EMPTY
+        else:
+            completeness = WindowCompleteness.PARTIAL
 
         # Aggregate OHLC
         # For higher timeframe bars (W1, D1, H4, etc.), if active non-synthetic bars exist,
@@ -285,13 +349,22 @@ def resample_m1_candles(
         # This prevents flat synthetic carry-forward bars (which fill closed market hours
         # between 17:00 NY Forex open and 18:00 NY XAUUSD open) from contaminating the
         # new week's opening price with Friday's closing price.
-        active_bars = [b for b in sorted_bars if not b.is_synthetic]
+        # Additionally, if session calendar is active, sanitize active bars so that rogue
+        # unexpected closed-session bars do not distort open/high/low/close.
         if active_bars:
-            agg_open = active_bars[0].open
-            agg_high = max(b.high for b in active_bars)
-            agg_low = min(b.low for b in active_bars)
-            agg_close = active_bars[-1].close
-            volumes = [b.volume for b in active_bars if b.volume is not None]
+            if cal is not None and expected_open_timestamps:
+                valid_open_bars = [
+                    b for b in active_bars if b.open_time in expected_open_timestamps
+                ]
+                bars_for_ohlc = valid_open_bars if valid_open_bars else active_bars
+            else:
+                bars_for_ohlc = active_bars
+
+            agg_open = bars_for_ohlc[0].open
+            agg_high = max(b.high for b in bars_for_ohlc)
+            agg_low = min(b.low for b in bars_for_ohlc)
+            agg_close = bars_for_ohlc[-1].close
+            volumes = [b.volume for b in bars_for_ohlc if b.volume is not None]
         else:
             agg_open = sorted_bars[0].open
             agg_high = max(b.high for b in sorted_bars)
@@ -302,7 +375,7 @@ def resample_m1_candles(
         # Aggregate volume
         agg_volume = sum(volumes, Decimal(0)) if volumes else None
 
-        # Determine if aggregated candle is fully closed (all expected M1 bars present)
+        # Determine if aggregated candle is fully closed (no missing trading minutes during open market)
         is_closed_bar = completeness in (
             WindowCompleteness.COMPLETE,
             WindowCompleteness.ALL_SYNTHETIC_CLOSED,
@@ -310,6 +383,32 @@ def resample_m1_candles(
 
         # Derived source ID retains parent lineage
         source_id = DataSourceId(f"{sorted_bars[0].source_id}{suffix}")
+
+        # Determine aggregate Point-in-Time availability metadata
+        all_available_ats = [b.available_at for b in sorted_bars if b.available_at is not None]
+        agg_available_at: datetime | None = (
+            max(all_available_ats) if len(all_available_ats) == present_count else None
+        )
+
+        all_ingested_ats = [b.ingested_at for b in sorted_bars if b.ingested_at is not None]
+        agg_ingested_at: datetime | None = max(all_ingested_ats) if all_ingested_ats else None
+
+        all_published_ats = [b.published_at for b in sorted_bars if b.published_at is not None]
+        agg_published_at: datetime | None = (
+            max(all_published_ats) if len(all_published_ats) == present_count else None
+        )
+        all_received_ats = [b.received_at for b in sorted_bars if b.received_at is not None]
+        agg_received_at: datetime | None = (
+            max(all_received_ats) if len(all_received_ats) == present_count else None
+        )
+
+        confidences = {b.availability_confidence for b in sorted_bars}
+        if confidences == {AvailabilityConfidence.VERIFIED} and agg_available_at is not None:
+            agg_confidence = AvailabilityConfidence.VERIFIED
+        elif AvailabilityConfidence.UNKNOWN in confidences or not confidences:
+            agg_confidence = AvailabilityConfidence.UNKNOWN
+        else:
+            agg_confidence = AvailabilityConfidence.ESTIMATED
 
         # Construct domain Candle with strict Point-in-Time semantics
         candle = Candle(
@@ -324,11 +423,11 @@ def resample_m1_candles(
             close=agg_close,
             volume=agg_volume,
             price_type=common_price_type,
-            published_at=None,
-            received_at=None,
-            available_at=None,
-            ingested_at=None,
-            availability_confidence=AvailabilityConfidence.UNKNOWN,
+            published_at=agg_published_at,
+            received_at=agg_received_at,
+            available_at=agg_available_at,
+            ingested_at=agg_ingested_at,
+            availability_confidence=agg_confidence,
             spread=None,
             tick_volume=None,
             is_closed=is_closed_bar,
@@ -341,13 +440,18 @@ def resample_m1_candles(
             ResampledCandle(
                 candle=candle,
                 target_timeframe=target_timeframe,
-                expected_m1_count=expected_count,
+                expected_m1_count=calendar_minutes,
                 present_m1_count=present_count,
                 synthetic_m1_count=synthetic_count,
                 active_m1_count=active_count,
                 completeness=completeness,
                 first_m1_open=sorted_bars[0].open_time,
                 last_m1_close=sorted_bars[-1].close_time,
+                expected_trading_minutes=expected_trading_mins,
+                missing_trading_minutes=missing_trading_mins,
+                market_closed_minutes=market_closed_mins,
+                unexpected_trading_minutes=unexpected_trading_mins,
+                duplicate_trading_minutes=duplicate_trading_mins,
             )
         )
 

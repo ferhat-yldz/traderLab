@@ -1,0 +1,225 @@
+================================================================================
+BID D1_NY_1700: Candles=22, SH=1, SL=2, Ranges=1 (Bull=1, Bear=0), OTE=1, OBs=0, Intersections=0, Prem=8, Disc=6, Eq=0, Out=8, Undet=0
+BID D1_UTC_0000: Candles=26, SH=2, SL=2, Ranges=3 (Bull=1, Bear=2), OTE=3, OBs=0, Intersections=0, Prem=10, Disc=5, Eq=0, Out=11, Undet=0
+BID H4: Candles=141, SH=14, SL=14, Ranges=26 (Bull=13, Bear=13), OTE=26, OBs=2, Intersections=4, Prem=62, Disc=22, Eq=0, Out=57, Undet=0
+BID H2: Candles=275, SH=28, SL=29, Ranges=56 (Bull=28, Bear=28), OTE=56, OBs=9, Intersections=43, Prem=35, Disc=33, Eq=0, Out=207, Undet=0
+ASK D1_NY_1700: Candles=22, SH=1, SL=2, Ranges=1 (Bull=1, Bear=0), OTE=1, OBs=0, Intersections=0, Prem=9, Disc=5, Eq=0, Out=8, Undet=0
+ASK D1_UTC_0000: Candles=26, SH=2, SL=2, Ranges=3 (Bull=1, Bear=2), OTE=3, OBs=0, Intersections=0, Prem=11, Disc=4, Eq=0, Out=11, Undet=0
+ASK H4: Candles=141, SH=14, SL=14, Ranges=26 (Bull=13, Bear=13), OTE=26, OBs=2, Intersections=4, Prem=63, Disc=21, Eq=0, Out=57, Undet=0
+ASK H2: Candles=275, SH=28, SL=29, Ranges=56 (Bull=28, Bear=28), OTE=56, OBs=9, Intersections=43, Prem=34, Disc=34, Eq=0, Out=207, Undet=0
+
+--- DETAILED EXAMPLES ---
+EXAMPLE #1 (BID D1_NY_1700 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_d1_BID_D1_BULLISH_DR_20261006T210000Z_20261011T210000Z
+   Start: 2026-10-06 21:00:00+00:00 (Low=4065.545 / High=4216.885)
+   End:   2026-10-11 21:00:00+00:00
+   Avail: 2026-10-15 21:00:00+00:00
+   Equilibrium: 4141.215
+   Range Size:  151.340
+   OTE 62:      4123.05420
+   OTE 705:     4110.190300 (Reference Sweet Spot)
+   OTE 79:      4097.32640
+   Zone:        [4097.32640, 4123.05420]
+EXAMPLE #2 (BID D1_UTC_0000 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_d1_BID_D1_BEARISH_DR_20260918T000000Z_20260928T000000Z
+   Start: 2026-09-18 00:00:00+00:00 (Low=4110.585 / High=4399.365)
+   End:   2026-09-28 00:00:00+00:00
+   Avail: 2026-10-03 00:00:00+00:00
+   Equilibrium: 4254.975
+   Range Size:  288.780
+   OTE 62:      4289.62860
+   OTE 705:     4314.174900 (Reference Sweet Spot)
+   OTE 79:      4338.72120
+   Zone:        [4289.62860, 4338.72120]
+EXAMPLE #3 (BID D1_UTC_0000 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_d1_BID_D1_BEARISH_DR_20260918T000000Z_20261007T000000Z
+   Start: 2026-09-18 00:00:00+00:00 (Low=4065.545 / High=4399.365)
+   End:   2026-10-07 00:00:00+00:00
+   Avail: 2026-10-13 00:00:00+00:00
+   Equilibrium: 4232.455
+   Range Size:  333.820
+   OTE 62:      4272.51340
+   OTE 705:     4300.888100 (Reference Sweet Spot)
+   OTE 79:      4329.26280
+   Zone:        [4272.51340, 4329.26280]
+EXAMPLE #4 (BID D1_UTC_0000 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_d1_BID_D1_BULLISH_DR_20261007T000000Z_20261012T000000Z
+   Start: 2026-10-07 00:00:00+00:00 (Low=4065.545 / High=4216.885)
+   End:   2026-10-12 00:00:00+00:00
+   Avail: 2026-10-16 00:00:00+00:00
+   Equilibrium: 4141.215
+   Range Size:  151.340
+   OTE 62:      4123.05420
+   OTE 705:     4110.190300 (Reference Sweet Spot)
+   OTE 79:      4097.32640
+   Zone:        [4097.32640, 4123.05420]
+EXAMPLE #5 (BID H4 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BULLISH_DR_20260916T160000Z_20260917T120000Z
+   Start: 2026-09-16 16:00:00+00:00 (Low=4234.665 / High=4380.815)
+   End:   2026-09-17 12:00:00+00:00
+   Avail: 2026-09-18 04:00:00+00:00
+   Equilibrium: 4307.740
+   Range Size:  146.150
+   OTE 62:      4290.20200
+   OTE 705:     4277.779250 (Reference Sweet Spot)
+   OTE 79:      4265.35650
+   Zone:        [4265.35650, 4290.20200]
+EXAMPLE #6 (BID H4 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20260917T120000Z_20260918T000000Z
+   Start: 2026-09-17 12:00:00+00:00 (Low=4334.105 / High=4380.815)
+   End:   2026-09-18 00:00:00+00:00
+   Avail: 2026-09-18 16:00:00+00:00
+   Equilibrium: 4357.460
+   Range Size:  46.710
+   OTE 62:      4363.06520
+   OTE 705:     4367.035550 (Reference Sweet Spot)
+   OTE 79:      4371.00590
+   Zone:        [4363.06520, 4371.00590]
+EXAMPLE #7 (BID H4 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BULLISH_DR_20260918T000000Z_20260918T040000Z
+   Start: 2026-09-18 00:00:00+00:00 (Low=4334.105 / High=4399.365)
+   End:   2026-09-18 04:00:00+00:00
+   Avail: 2026-09-18 20:00:00+00:00
+   Equilibrium: 4366.735
+   Range Size:  65.260
+   OTE 62:      4358.90380
+   OTE 705:     4353.356700 (Reference Sweet Spot)
+   OTE 79:      4347.80960
+   Zone:        [4347.80960, 4358.90380]
+EXAMPLE #8 (BID H4 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20260918T040000Z_20260921T120000Z
+   Start: 2026-09-18 04:00:00+00:00 (Low=4322.335 / High=4399.365)
+   End:   2026-09-21 12:00:00+00:00
+   Avail: 2026-09-22 04:00:00+00:00
+   Equilibrium: 4360.850
+   Range Size:  77.030
+   OTE 62:      4370.09360
+   OTE 705:     4376.641150 (Reference Sweet Spot)
+   OTE 79:      4383.18870
+   Zone:        [4370.09360, 4383.18870]
+EXAMPLE #9 (BID H2 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_DR_20260915T080000Z_20260915T180000Z
+   Start: 2026-09-15 08:00:00+00:00 (Low=4261.105 / High=4310.435)
+   End:   2026-09-15 18:00:00+00:00
+   Avail: 2026-09-16 02:00:00+00:00
+   Equilibrium: 4285.770
+   Range Size:  49.330
+   OTE 62:      4279.85040
+   OTE 705:     4275.657350 (Reference Sweet Spot)
+   OTE 79:      4271.46430
+   Zone:        [4271.46430, 4279.85040]
+EXAMPLE #10 (BID H2 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260915T180000Z_20260916T000000Z
+   Start: 2026-09-15 18:00:00+00:00 (Low=4275.155 / High=4310.435)
+   End:   2026-09-16 00:00:00+00:00
+   Avail: 2026-09-16 08:00:00+00:00
+   Equilibrium: 4292.795
+   Range Size:  35.280
+   OTE 62:      4297.02860
+   OTE 705:     4300.027400 (Reference Sweet Spot)
+   OTE 79:      4303.02620
+   Zone:        [4297.02860, 4303.02620]
+EXAMPLE #11 (BID H2 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_DR_20260916T000000Z_20260916T020000Z
+   Start: 2026-09-16 00:00:00+00:00 (Low=4275.155 / High=4340.715)
+   End:   2026-09-16 02:00:00+00:00
+   Avail: 2026-09-16 10:00:00+00:00
+   Equilibrium: 4307.935
+   Range Size:  65.560
+   OTE 62:      4300.06780
+   OTE 705:     4294.495200 (Reference Sweet Spot)
+   OTE 79:      4288.92260
+   Zone:        [4288.92260, 4300.06780]
+EXAMPLE #12 (BID H2 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260916T020000Z_20260916T180000Z
+   Start: 2026-09-16 02:00:00+00:00 (Low=4234.665 / High=4340.715)
+   End:   2026-09-16 18:00:00+00:00
+   Avail: 2026-09-17 02:00:00+00:00
+   Equilibrium: 4287.690
+   Range Size:  106.050
+   OTE 62:      4300.41600
+   OTE 705:     4309.430250 (Reference Sweet Spot)
+   OTE 79:      4318.44450
+   Zone:        [4300.41600, 4318.44450]
+EXAMPLE #13 (ASK D1_NY_1700 BULLISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_d1_ASK_D1_BULLISH_DR_20261006T210000Z_20261011T210000Z
+   Start: 2026-10-06 21:00:00+00:00 (Low=4066.875 / High=4217.755)
+   End:   2026-10-11 21:00:00+00:00
+   Avail: 2026-10-15 21:00:00+00:00
+   Equilibrium: 4142.315
+   Range Size:  150.880
+   OTE 62:      4124.20940
+   OTE 705:     4111.384600 (Reference Sweet Spot)
+   OTE 79:      4098.55980
+   Zone:        [4098.55980, 4124.20940]
+EXAMPLE #14 (ASK D1_UTC_0000 BEARISH):
+   Range ID: XAUUSD_market_data_lab_m1_derived_d1_ASK_D1_BEARISH_DR_20260918T000000Z_20260928T000000Z
+   Start: 2026-09-18 00:00:00+00:00 (Low=4111.275 / High=4399.965)
+   End:   2026-09-28 00:00:00+00:00
+   Avail: 2026-10-03 00:00:00+00:00
+   Equilibrium: 4255.620
+   Range Size:  288.690
+   OTE 62:      4290.26280
+   OTE 705:     4314.801450 (Reference Sweet Spot)
+   OTE 79:      4339.34010
+   Zone:        [4290.26280, 4339.34010]
+
+--- INTERSECTIONS FOUND ---
+BID H4 has 4 intersections:
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20260925T080000Z_20260925T120000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20260925T080000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R
+   Intersection: [4292.31180, 4302.70560] width=10.39380 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20261005T080000Z_20261006T000000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+   Intersection: [4144.92960, 4156.20570] width=11.27610 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20261006T160000Z_20261007T120000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+   Intersection: [4144.175, 4159.23110] width=15.05610 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20261013T040000Z_20261014T160000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+   Intersection: [4152.00300, 4170.165] width=18.16200 touch=False
+BID H2 has 43 intersections:
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260922T000000Z_20260922T080000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R
+   Intersection: [4343.58850, 4345.155] width=1.56650 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260922T180000Z_20260923T160000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R
+   Intersection: [4334.19380, 4345.155] width=10.96120 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260924T000000Z_20260924T100000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R
+   Intersection: [4280.46780, 4290.48760] width=10.01980 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260924T000000Z_20260924T100000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260925T180000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R
+   Intersection: [4282.465, 4290.48760] width=8.02260 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260925T000000Z_20260925T040000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R
+   Intersection: [4280.42740, 4287.14580] width=6.71840 touch=False
+ASK H4 has 4 intersections:
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_DR_20260925T080000Z_20260925T120000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_OB_20260925T080000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_SWING_LOW_20260925T120000Z_3L3R
+   Intersection: [4292.93080, 4303.31610] width=10.38530 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_DR_20261005T080000Z_20261006T000000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_SWING_LOW_20261013T000000Z_3L3R
+   Intersection: [4145.59460, 4156.82820] width=11.23360 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_DR_20261006T160000Z_20261007T120000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_SWING_LOW_20261013T000000Z_3L3R
+   Intersection: [4144.735, 4159.97650] width=15.24150 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_DR_20261013T040000Z_20261014T160000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_SWING_LOW_20261013T000000Z_3L3R
+   Intersection: [4152.62030, 4170.725] width=18.10470 touch=False
+ASK H2 has 43 intersections:
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_DR_20260922T000000Z_20260922T080000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260922T080000Z_3L3R
+   Intersection: [4344.35840, 4345.965] width=1.60660 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_DR_20260922T180000Z_20260923T160000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260922T080000Z_3L3R
+   Intersection: [4334.88760, 4345.965] width=11.07740 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_DR_20260924T000000Z_20260924T100000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260923T160000Z_3L3R
+   Intersection: [4281.29660, 4291.35720] width=10.06060 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_DR_20260924T000000Z_20260924T100000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260925T180000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260925T140000Z_3L3R
+   Intersection: [4283.185, 4291.35720] width=8.17220 touch=False
+   OTE: OTE_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_DR_20260925T000000Z_20260925T040000Z
+   OB:  XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260923T160000Z_3L3R
+   Intersection: [4281.23880, 4287.95210] width=6.71330 touch=False

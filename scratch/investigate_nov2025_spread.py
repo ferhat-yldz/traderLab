@@ -20,8 +20,12 @@ dt_ny = dt_utc.astimezone(zoneinfo.ZoneInfo("America/New_York"))
 print("=== 2025-11 MAX SPREAD ANALYSIS ===")
 print(f"Timestamp UTC: {dt_utc}")
 print(f"Timestamp NY:  {dt_ny}")
-print(f"BID: Open={row['open_bid']}, High={row['high_bid']}, Low={row['low_bid']}, Close={row['close_bid']}")
-print(f"ASK: Open={row['open_ask']}, High={row['high_ask']}, Low={row['low_ask']}, Close={row['close_ask']}")
+print(
+    f"BID: Open={row['open_bid']}, High={row['high_bid']}, Low={row['low_bid']}, Close={row['close_bid']}"
+)
+print(
+    f"ASK: Open={row['open_ask']}, High={row['high_ask']}, Low={row['low_ask']}, Close={row['close_ask']}"
+)
 print(f"Spread Close: {row['spread_close']:.4f}")
 
 start_idx = max(0, max_idx - 3)
@@ -31,4 +35,6 @@ for i in range(start_idx, end_idx):
     r = df.loc[i]
     t = datetime.fromtimestamp(r["timestamp"] / 1000, tz=timezone.utc)
     marker = " <-- [MAX SPREAD]" if i == max_idx else ""
-    print(f"{t.strftime('%Y-%m-%d %H:%M')} UTC | BID Close={r['close_bid']:.3f} | ASK Close={r['close_ask']:.3f} | Spread={r['spread_close']:.4f}{marker}")
+    print(
+        f"{t.strftime('%Y-%m-%d %H:%M')} UTC | BID Close={r['close_bid']:.3f} | ASK Close={r['close_ask']:.3f} | Spread={r['spread_close']:.4f}{marker}"
+    )

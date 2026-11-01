@@ -1,0 +1,476 @@
+==============================================================================================================
+PHASE 4D: REAL XAUUSD DATA AUDIT & ICT SETUP ENGINE EXECUTION
+Window: 2026-09-15T00:00:00+00:00 -> 2026-10-15T23:59:59+00:00
+==============================================================================================================
+
+[DATA LOAD] Loaded 47608 BID M1 candles, 47608 ASK M1 candles in 2.081s
+  Quality [BID]: 31739 bars in window | partial=0 | synthetic=0 | duplicates=0
+  Quality [ASK]: 31739 bars in window | partial=0 | synthetic=0 | duplicates=0
+
+============================================================================================================================================
+STAGE 12: REAL XAUUSD SETUP AUDIT TABLE (2026-09-15 - 2026-10-15 UTC)
+============================================================================================================================================
+PT   TF        Bars  Swp  BOS  MSS  Disp  FVG   OB |  Rev  Cont |  Z_ID Z_Tst  Inv  Exp PIT_Rej | Total
+--------------------------------------------------------------------------------------------------------------------------------------------
+BID  D1 NY       22    1    0    0     0    2    0 |    0     0 |     0     0    0    0       0 |     0
+BID  D1 UTC      26    1    0    0     0    2    0 |    0     0 |     0     0    0    0       0 |     0
+BID  H4         141    9    4    1     5   28    1 |    1     1 |     0     1    1    0       0 |     2
+BID  H2         275   25   14    1    18   52    3 |    1    10 |     0     1   10    0       0 |    11
+ASK  D1 NY       22    1    0    0     0    2    0 |    0     0 |     0     0    0    0       0 |     0
+ASK  D1 UTC      26    1    0    0     0    2    0 |    0     0 |     0     0    0    0       0 |     0
+ASK  H4         141    9    4    1     6   28    1 |    1     1 |     0     1    1    0       0 |     2
+ASK  H2         275   25   14    1    18   52    3 |    1    10 |     0     1   10    0       0 |    11
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+==============================================================================================================
+NUMERICAL RECONCILIATION SUMMARY
+==============================================================================================================
+Total Structural Candidates Detected:   26
+  - Reversal Candidates:                4
+  - Continuation Candidates:            22
+Candidate Status Breakdown:
+  - ZONE_IDENTIFIED:                    0
+  - ZONE_TESTED:                        4
+  - INVALIDATED:                        22
+  - EXPIRED:                            0
+Unique Candidate IDs across series:     26
+Unique Physical Price Zones:            24
+
+==============================================================================================================
+STAGE 12: CANDIDATE EXAMPLES (Found 26 Total)
+==============================================================================================================
+
+--- Candidate #1 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h4:BID:H4:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R:20260928080000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               ZONE_TESTED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R (confirmed: 2026-09-28T04:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h4_BID_H4_DISPLACEMENT_BEARISH_20260928T000000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h4:BID:H4:20260928080000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20260925T080000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R
+OTE ID:               None
+Zone Boundaries:      [4199.955 - 4255.945] (Mid: 4227.950)
+Available Time:       2026-09-28T08:00:00+00:00
+Confluence Count:     4
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h4:BID:H4:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R:20260928080000
+Instrument/TF/Type: XAUUSD | H4 | BID
+Current Status:     ZONE_TESTED
+Available Time:     2026-09-28 08:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R (Confirmed: 2026-09-28 04:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h4_BID_H4_DISPLACEMENT_BEARISH_20260928T000000Z
+Entry Zone:         [4199.955 - 4255.945] (Midpoint: 4227.950)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h4:BID:H4:20260928080000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20260925T080000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R
+Confluences (4 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.92)
+  3. [FVG] Aligned BEARISH FVG zone [4199.955 - 4255.945]
+  4. [ORDER_BLOCK] Aligned BEARISH Order Block [4274.735 - 4315.545]
+Lifecycle Transitions (1):
+  * 2026-09-30 08:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+
+--- Candidate #2 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h4:BID:H4:REVERSAL:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R:20261014200000
+Type & Direction:     REVERSAL | BEARISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R (confirmed: 2026-10-14T08:00:00+00:00)
+Sweep Event ID:       XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BUY_SIDE_SWEEP_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_HIGH_20261009T040000Z_3L3R_20261012T000000Z
+MSS Confirmation ID:  CONF_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h4_BID_H4_DISPLACEMENT_BEARISH_20261014T120000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h4:BID:H4:20261014200000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+OTE ID:               OTE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20261008T000000Z_20261008T160000Z
+Zone Boundaries:      [4106.368 - 4135.665] (Mid: 4121.0165)
+Available Time:       2026-10-14T20:00:00+00:00
+Confluence Count:     7
+Explanation:
+=== ICT REVERSAL — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h4:BID:H4:REVERSAL:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R:20261014200000
+Instrument/TF/Type: XAUUSD | H4 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-10-14 20:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R (Confirmed: 2026-10-14 08:00:00 UTC)
+Liquidity Sweep:    XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BUY_SIDE_SWEEP_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_HIGH_20261009T040000Z_3L3R_20261012T000000Z
+MSS Confirmation:   CONF_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h4_BID_H4_DISPLACEMENT_BEARISH_20261014T120000Z
+Entry Zone:         [4106.368 - 4135.665] (Midpoint: 4121.0165)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h4:BID:H4:20261014200000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R
+  -> Linked OTE:    OTE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_DR_20261008T000000Z_20261008T160000Z
+Confluences (7 verified):
+  1. [LIQUIDITY_SWEEP] Confirmed BUY_SIDE Sweep at 4207.295
+  2. [MSS] Confirmed MSS in BEARISH direction
+  3. [DISPLACEMENT] Confirmed institutional displacement (Ratio: 0.78)
+  4. [FVG] Aligned BEARISH FVG zone [4106.368 - 4135.665]
+  5. [ORDER_BLOCK] Aligned BEARISH Order Block [4144.175 - 4170.165]
+  6. [OTE] Optimal Trade Entry overlap [4128.80040 - 4135.28930] (Width: 6.48890)
+  7. [PREMIUM_DISCOUNT] Zone is in Premium above Equilibrium (4104.425)
+Lifecycle Transitions (2):
+  * 2026-10-15 00:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-10-15 04:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4145.645))
+
+--- Candidate #3 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BULLISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20260918T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20260917T120000Z_3L3R:20260918200000
+Type & Direction:     CONTINUATION | BULLISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20260918T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20260917T120000Z_3L3R (confirmed: 2026-09-18T08:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BULLISH_20260918T160000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260918200000:BULLISH:r0
+Order Block ID:       None
+OTE ID:               None
+Zone Boundaries:      [4361.545 - 4374.565] (Mid: 4368.055)
+Available Time:       2026-09-18T20:00:00+00:00
+Confluence Count:     3
+Explanation:
+=== ICT CONTINUATION — BULLISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BULLISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20260918T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20260917T120000Z_3L3R:20260918200000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-09-18 20:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20260918T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20260917T120000Z_3L3R (Confirmed: 2026-09-18 08:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BULLISH_20260918T160000Z
+Entry Zone:         [4361.545 - 4374.565] (Midpoint: 4368.055)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260918200000:BULLISH:r0
+Confluences (3 verified):
+  1. [BOS] Confirmed BULLISH Break of Structure
+  2. [DISPLACEMENT] Aligned BULLISH Displacement (Body Ratio: 0.85)
+  3. [FVG] Aligned BULLISH FVG zone [4361.545 - 4374.565]
+Lifecycle Transitions (2):
+  * 2026-09-21 00:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-09-21 04:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4358.825))
+
+--- Candidate #4 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260922T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260921T140000Z_3L3R:20260922080000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260922T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260921T140000Z_3L3R (confirmed: 2026-09-22T08:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260922T000000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260921080000:BEARISH:r0
+Order Block ID:       None
+OTE ID:               OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260921T120000Z_20260921T140000Z
+Zone Boundaries:      [4355.915 - 4357.495] (Mid: 4356.705)
+Available Time:       2026-09-22T08:00:00+00:00
+Confluence Count:     4
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260922T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260921T140000Z_3L3R:20260922080000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-09-22 08:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260922T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260921T140000Z_3L3R (Confirmed: 2026-09-22 08:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260922T000000Z
+Entry Zone:         [4355.915 - 4357.495] (Midpoint: 4356.705)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260921080000:BEARISH:r0
+  -> Linked OTE:    OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20260921T120000Z_20260921T140000Z
+Confluences (4 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.62)
+  3. [FVG] Aligned BEARISH FVG zone [4355.915 - 4357.495]
+  4. [OTE] Optimal Trade Entry overlap [4355.915 - 4357.495] (Width: 1.580)
+Lifecycle Transitions (2):
+  * 2026-09-21 10:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-09-21 12:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4368.925))
+
+--- Candidate #5 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R:20260923140000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R (confirmed: 2026-09-23T14:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260923T120000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260922080000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R
+OTE ID:               None
+Zone Boundaries:      [4324.135 - 4339.255] (Mid: 4331.695)
+Available Time:       2026-09-23T14:00:00+00:00
+Confluence Count:     4
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R:20260923140000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-09-23 14:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R (Confirmed: 2026-09-23 14:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260923T120000Z
+Entry Zone:         [4324.135 - 4339.255] (Midpoint: 4331.695)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260922080000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R
+Confluences (4 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.67)
+  3. [FVG] Aligned BEARISH FVG zone [4324.135 - 4339.255]
+  4. [ORDER_BLOCK] Aligned BEARISH Order Block [4333.005 - 4345.155]
+Lifecycle Transitions (2):
+  * 2026-09-22 10:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-09-22 18:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4350.395))
+
+--- Candidate #6 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R:20260924120000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R (confirmed: 2026-09-24T10:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260924T080000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260924120000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R
+OTE ID:               None
+Zone Boundaries:      [4267.735 - 4273.865] (Mid: 4270.800)
+Available Time:       2026-09-24T12:00:00+00:00
+Confluence Count:     4
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R:20260924120000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-09-24 12:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R (Confirmed: 2026-09-24 10:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260924T080000Z
+Entry Zone:         [4267.735 - 4273.865] (Midpoint: 4270.800)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260924120000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R
+Confluences (4 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.66)
+  3. [FVG] Aligned BEARISH FVG zone [4267.735 - 4273.865]
+  4. [ORDER_BLOCK] Aligned BEARISH Order Block [4273.145 - 4296.595]
+Lifecycle Transitions (2):
+  * 2026-09-24 14:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-09-24 22:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4274.505))
+
+--- Candidate #7 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R:20260928040000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               ZONE_TESTED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R (confirmed: 2026-09-28T02:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260928T000000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260928040000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260925T180000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R
+OTE ID:               None
+Zone Boundaries:      [4217.225 - 4255.945] (Mid: 4236.585)
+Available Time:       2026-09-28T04:00:00+00:00
+Confluence Count:     4
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R:20260928040000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     ZONE_TESTED
+Available Time:     2026-09-28 04:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R (Confirmed: 2026-09-28 02:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260928T000000Z
+Entry Zone:         [4217.225 - 4255.945] (Midpoint: 4236.585)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260928040000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260925T180000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R
+Confluences (4 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.80)
+  3. [FVG] Aligned BEARISH FVG zone [4217.225 - 4255.945]
+  4. [ORDER_BLOCK] Aligned BEARISH Order Block [4282.465 - 4297.025]
+Lifecycle Transitions (1):
+  * 2026-09-30 14:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+
+--- Candidate #8 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R:20260930180000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R (confirmed: 2026-09-30T16:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260930T140000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260930180000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260930T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R
+OTE ID:               None
+Zone Boundaries:      [4162.965 - 4176.325] (Mid: 4169.645)
+Available Time:       2026-09-30T18:00:00+00:00
+Confluence Count:     4
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R:20260930180000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-09-30 18:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R (Confirmed: 2026-09-30 16:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20260930T140000Z
+Entry Zone:         [4162.965 - 4176.325] (Midpoint: 4169.645)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20260930180000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260930T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R
+Confluences (4 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.62)
+  3. [FVG] Aligned BEARISH FVG zone [4162.965 - 4176.325]
+  4. [ORDER_BLOCK] Aligned BEARISH Order Block [4176.005 - 4201.145]
+Lifecycle Transitions (2):
+  * 2026-10-01 02:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-10-01 06:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4187.875))
+
+--- Candidate #9 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R:20261002180000
+Type & Direction:     CONTINUATION | BEARISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R (confirmed: 2026-10-02T16:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20261002T140000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20261002180000:BEARISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20261002T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R
+OTE ID:               OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20261001T040000Z_20261002T000000Z
+Zone Boundaries:      [4143.015 - 4174.465] (Mid: 4158.740)
+Available Time:       2026-10-02T18:00:00+00:00
+Confluence Count:     5
+Explanation:
+=== ICT CONTINUATION — BEARISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R:20261002180000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-10-02 18:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R (Confirmed: 2026-10-02 16:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BEARISH_20261002T140000Z
+Entry Zone:         [4143.015 - 4174.465] (Midpoint: 4158.740)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20261002180000:BEARISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20261002T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R
+  -> Linked OTE:    OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_DR_20261001T040000Z_20261002T000000Z
+Confluences (5 verified):
+  1. [BOS] Confirmed BEARISH Break of Structure
+  2. [DISPLACEMENT] Aligned BEARISH Displacement (Body Ratio: 0.90)
+  3. [FVG] Aligned BEARISH FVG zone [4143.015 - 4174.465]
+  4. [ORDER_BLOCK] Aligned BEARISH Order Block [4174.465 - 4225.886]
+  5. [OTE] Optimal Trade Entry overlap [4170.17080 - 4174.465] (Width: 4.29420)
+Lifecycle Transitions (2):
+  * 2026-10-02 20:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-10-09 02:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4175.135))
+
+--- Candidate #10 ---
+Setup ID:             XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BULLISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R:20261009040000
+Type & Direction:     CONTINUATION | BULLISH
+Status:               INVALIDATED
+Structure Event ID:   XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R (confirmed: 2026-10-09T04:00:00+00:00)
+Sweep Event ID:       None
+MSS Confirmation ID:  None
+Displacement ID:      XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BULLISH_20261009T000000Z
+FVG ID:               XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20261009040000:BULLISH:r0
+Order Block ID:       XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_OB_20261008T200000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R
+OTE ID:               OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_DR_20260929T160000Z_20260929T220000Z
+Zone Boundaries:      [4144.825 - 4169.515] (Mid: 4157.170)
+Available Time:       2026-10-09T04:00:00+00:00
+Confluence Count:     5
+Explanation:
+=== ICT CONTINUATION — BULLISH ===
+Setup ID:           XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BULLISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R:20261009040000
+Instrument/TF/Type: XAUUSD | H2 | BID
+Current Status:     INVALIDATED
+Available Time:     2026-10-09 04:00:00 UTC
+Structure Link:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R (Confirmed: 2026-10-09 04:00:00 UTC)
+Displacement Link:  XAUUSD_market_data_lab_m1_derived_h2_BID_H2_DISPLACEMENT_BULLISH_20261009T000000Z
+Entry Zone:         [4144.825 - 4169.515] (Midpoint: 4157.170)
+  -> Linked FVG:    XAUUSD:market_data_lab_m1_derived_h2:BID:H2:20261009040000:BULLISH:r0
+  -> Linked OB:     XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_OB_20261008T200000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R
+  -> Linked OTE:    OTE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_DR_20260929T160000Z_20260929T220000Z
+Confluences (5 verified):
+  1. [BOS] Confirmed BULLISH Break of Structure
+  2. [DISPLACEMENT] Aligned BULLISH Displacement (Body Ratio: 0.90)
+  3. [FVG] Aligned BULLISH FVG zone [4144.825 - 4169.515]
+  4. [ORDER_BLOCK] Aligned BULLISH Order Block [4131.825 - 4136.115]
+  5. [OTE] Optimal Trade Entry overlap [4151.55790 - 4159.29120] (Width: 7.73330)
+Lifecycle Transitions (2):
+  * 2026-10-09 14:00 UTC: ZONE_IDENTIFIED -> ZONE_TESTED (Price touched identified zone boundaries)
+  * 2026-10-14 10:00 UTC: ZONE_TESTED -> INVALIDATED (Price closed beyond zone opposite boundary (4143.581))
+
+==============================================================================================================
+STAGE 13: CHRONOLOGICAL POINT-IN-TIME REPLAY AUDIT
+==============================================================================================================
+
+[REPLAY TARGET #1: XAUUSD:market_data_lab_m1_derived_h4:BID:H4:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R:20260928080000]
+  Setup Type: CONTINUATION | Direction: BEARISH
+  Structure Confirmed: 2026-09-28T04:00:00+00:00
+  Zone Available:      2026-09-28T08:00:00+00:00
+  Setup Available:     2026-09-28T08:00:00+00:00
+  First Tested Time:   2026-09-30T08:00:00+00:00
+    Snapshot [2026-09-28T03:59:00+00:00] 1. Before Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-28T04:00:00+00:00] 2. At Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-28T08:00:00+00:00] 3. At Setup Available Time: Status=ZONE_IDENTIFIED | Confluences=4
+    Snapshot [2026-09-30T07:59:00+00:00] 4. Before Zone Test: Status=ZONE_IDENTIFIED | Confluences=4
+    Snapshot [2026-09-30T08:00:00+00:00] 5. At/After Zone Test: Status=ZONE_TESTED | Confluences=4
+    Snapshot [2026-09-30T09:00:00+00:00] 6. Before Invalidation/Final: Status=ZONE_TESTED | Confluences=4
+    Snapshot [2026-09-30T10:00:00+00:00] 7. At/After Invalidation/Final: Status=ZONE_TESTED | Confluences=4
+
+[REPLAY TARGET #2: XAUUSD:market_data_lab_m1_derived_h4:BID:H4:REVERSAL:BEARISH:XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R:20261014200000]
+  Setup Type: REVERSAL | Direction: BEARISH
+  Structure Confirmed: 2026-10-14T08:00:00+00:00
+  Zone Available:      2026-10-14T20:00:00+00:00
+  Setup Available:     2026-10-14T20:00:00+00:00
+  First Tested Time:   2026-10-15T00:00:00+00:00
+  Invalidation Time:   2026-10-15T04:00:00+00:00
+    Snapshot [2026-10-14T07:59:00+00:00] 1. Before Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-10-14T08:00:00+00:00] 2. At Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-10-14T20:00:00+00:00] 3. At Setup Available Time: Status=ZONE_IDENTIFIED | Confluences=7
+    Snapshot [2026-10-14T23:59:00+00:00] 4. Before Zone Test: Status=ZONE_IDENTIFIED | Confluences=7
+    Snapshot [2026-10-15T00:00:00+00:00] 5. At/After Zone Test: Status=ZONE_TESTED | Confluences=7
+    Snapshot [2026-10-15T03:59:00+00:00] 6. Before Invalidation/Final: Status=ZONE_TESTED | Confluences=7
+    Snapshot [2026-10-15T04:00:00+00:00] 7. At/After Invalidation/Final: Status=INVALIDATED | Confluences=7
+
+[REPLAY TARGET #3: XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BULLISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20260918T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20260917T120000Z_3L3R:20260918200000]
+  Setup Type: CONTINUATION | Direction: BULLISH
+  Structure Confirmed: 2026-09-18T08:00:00+00:00
+  Zone Available:      2026-09-18T20:00:00+00:00
+  Setup Available:     2026-09-18T20:00:00+00:00
+  First Tested Time:   2026-09-21T00:00:00+00:00
+  Invalidation Time:   2026-09-21T04:00:00+00:00
+    Snapshot [2026-09-18T07:59:00+00:00] 1. Before Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-18T08:00:00+00:00] 2. At Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-18T20:00:00+00:00] 3. At Setup Available Time: Status=ZONE_IDENTIFIED | Confluences=3
+    Snapshot [2026-09-20T23:59:00+00:00] 4. Before Zone Test: Status=ZONE_IDENTIFIED | Confluences=3
+    Snapshot [2026-09-21T00:00:00+00:00] 5. At/After Zone Test: Status=ZONE_TESTED | Confluences=3
+    Snapshot [2026-09-21T03:59:00+00:00] 6. Before Invalidation/Final: Status=ZONE_TESTED | Confluences=3
+    Snapshot [2026-09-21T04:00:00+00:00] 7. At/After Invalidation/Final: Status=INVALIDATED | Confluences=3
+
+[REPLAY TARGET #4: XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260922T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260921T140000Z_3L3R:20260922080000]
+  Setup Type: CONTINUATION | Direction: BEARISH
+  Structure Confirmed: 2026-09-22T08:00:00+00:00
+  Zone Available:      2026-09-21T08:00:00+00:00
+  Setup Available:     2026-09-22T08:00:00+00:00
+  First Tested Time:   2026-09-21T10:00:00+00:00
+  Invalidation Time:   2026-09-21T12:00:00+00:00
+    Snapshot [2026-09-22T07:59:00+00:00] 1. Before Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-22T08:00:00+00:00] 2. At Structure Confirmation: Status=INVALIDATED | Confluences=4
+    Snapshot [2026-09-22T08:00:00+00:00] 3. At Setup Available Time: Status=INVALIDATED | Confluences=4
+    Snapshot [2026-09-21T09:59:00+00:00] 4. Before Zone Test: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-21T10:00:00+00:00] 5. At/After Zone Test: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-21T11:59:00+00:00] 6. Before Invalidation/Final: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-21T12:00:00+00:00] 7. At/After Invalidation/Final: NOT AVAILABLE (PIT Safe: 0 setups visible)
+
+[REPLAY TARGET #5: XAUUSD:market_data_lab_m1_derived_h2:BID:H2:CONTINUATION:BEARISH:XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R:20260923140000]
+  Setup Type: CONTINUATION | Direction: BEARISH
+  Structure Confirmed: 2026-09-23T14:00:00+00:00
+  Zone Available:      2026-09-22T08:00:00+00:00
+  Setup Available:     2026-09-23T14:00:00+00:00
+  First Tested Time:   2026-09-22T10:00:00+00:00
+  Invalidation Time:   2026-09-22T18:00:00+00:00
+    Snapshot [2026-09-23T13:59:00+00:00] 1. Before Structure Confirmation: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-23T14:00:00+00:00] 2. At Structure Confirmation: Status=INVALIDATED | Confluences=4
+    Snapshot [2026-09-23T14:00:00+00:00] 3. At Setup Available Time: Status=INVALIDATED | Confluences=4
+    Snapshot [2026-09-22T09:59:00+00:00] 4. Before Zone Test: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-22T10:00:00+00:00] 5. At/After Zone Test: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-22T17:59:00+00:00] 6. Before Invalidation/Final: NOT AVAILABLE (PIT Safe: 0 setups visible)
+    Snapshot [2026-09-22T18:00:00+00:00] 7. At/After Invalidation/Final: NOT AVAILABLE (PIT Safe: 0 setups visible)
+
+==============================================================================================================
+STAGE 14: PERFORMANCE BENCHMARK (Single Run)
+==============================================================================================================
+1. Data Loading:                 2.0809s
+2. Resampling (8 series):        1.9108s
+3. Existing Feature Engines:     0.1362s
+4. ICT Candidate Assembly:       0.0028s
+5. PIT Filtering:                0.0002s
+-------------------------------------------------------
+Total Pipeline Execution Time:   4.1587s

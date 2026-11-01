@@ -1,0 +1,1089 @@
+<USER_REQUEST>
+TRADERLAB — FAZ 4E-A
+POINT-IN-TIME SAFE ICT STRATEGY RULES
+& TRADE PLAN GENERATION ENGINE
+
+ROL:
+Senior Python Software Architect,
+Quantitative Trading Systems Engineer,
+ICT/SMC Strategy Research Engineer,
+Financial Data Quality Auditor,
+Point-in-Time Data Integrity Architect.
+
+PROJE:
+TRADERLAB
+GitHub: https://github.com/ferhat-yldz/traderLab
+
+MEVCUT DURUM:
+FAZ 4D-K2: ACCEPTED — FINAL PIT INTEGRITY VERIFIED
+
+Son doğrulama baz çizgisi:
+758 başarılı pytest testi.
+Mypy: 71 kaynak dosyası temiz.
+Ruff Check: 0 hata.
+Ruff Format: 107 dosya standartlara uygun.
+
+Bu görev kapsamında Git commit/push YAPILMAYACAK.
+
+============================================================
+GENEL AMAÇ
+============================================================
+
+Faz 4D'de geliştirilen PIT güvenli ICT Setup Candidate
+& Confluence Engine çıktılarını kullanarak, potansiyel
+işlem senaryolarını deterministik ve açıklanabilir
+işlem planı taslaklarına dönüştüren saf domain motoru
+geliştir.
+
+Yeni motorun amacı:
+
+- Teyitli ICT setup'larını değerlendirmek.
+- İşlem yönünü belirlemek.
+- Giriş için uygun fiyat bölgesini seçmek.
+- Yapılandırılabilir giriş koşullarını uygulamak.
+- Koşulların hangi anda sağlandığını kaydetmek.
+- Henüz gerçekleşmemiş fiyat temaslarını bekleyen
+  koşul olarak göstermek.
+- Uygun olmayan setup'ları gerekçesiyle reddetmek.
+- Her karar için denetlenebilir olay referansları üretmek.
+
+ÖNEMLİ:
+
+Bu faz bir trade execution engine değildir.
+
+Gerçek emir gönderme.
+Broker API çağırma.
+Alım-satım emri açma veya kapatma.
+Gerçek işlem gerçekleşmiş gibi kayıt üretme.
+Backtest gerçekleştirme.
+PnL veya kazanma oranı hesaplama.
+
+Üretilen kayıtlar yalnızca analitik işlem planlarıdır.
+
+============================================================
+AŞAMA 0 — ZORUNLU FAZ 4D-K2 ÖN DENETİMİ
+============================================================
+
+GELİŞTİRMEYE BAŞLAMADAN ÖNCE:
+
+Mevcut domain kodunu incele:
+
+- ict_setup.py
+- order_block.py
+- fvg.py
+- fvg_respect.py
+- market_structure.py
+- displacement.py
+- mss_confirmation.py
+- premium_discount.py
+- ote.py
+
+Mevcut fonksiyonların gerçek imzalarını doğrula.
+
+Özellikle şu iki PIT sınır durumunu test et:
+
+------------------------------------------------------------
+0.1. SONRADAN INVALIDATED OLAN OB'NİN GEÇMİŞ GİRİŞ BÖLGESİ
+------------------------------------------------------------
+
+Bir Order Block:
+
+t_confirmation anında teyit edilmiş olsun.
+
+t_plan anında hâlâ aktif olsun.
+
+t_invalidation anında geçersizleşsin.
+
+Koşul:
+
+t_confirmation <= t_plan < t_invalidation
+
+Geçmiş t_plan anında:
+
+- OB geçerli olarak görünmeli.
+- Yapısal bağlantısı doğruysa confluence'a katılabilmeli.
+- prefer_order_block_over_fvg=True ise ve diğer
+  giriş bölgesi şartlarını sağlıyorsa OB bölgesi
+  seçilebilmeli.
+
+Dönem sonundaki INVALIDATED statüsü,
+geçmişteki giriş bölgesi seçimini değiştiremez.
+
+Özellikle:
+
+cutoff=None ile yapılan tüm geçmiş taramasının
+dönem sonu OB durumunu geçmiş planlara taşımadığını
+negatif testle kanıtla.
+
+------------------------------------------------------------
+0.2. FULLY_MITIGATED ORDER BLOCK GÜVENLİĞİ
+------------------------------------------------------------
+
+Mevcut Order Block sözleşmesinde:
+
+FULLY_MITIGATED statüsünün is_active=False
+anlamına geldiği doğrulanmalıdır.
+
+Bir OB, karar anında FULLY_MITIGATED ise:
+
+- Aktif ve test edilmeyi bekleyen yeni giriş bölgesi
+  olarak seçilmemeli.
+- Tarihsel kanıt kaydı gerekiyorsa korunmalı.
+- Aktiflik ile geçmişte var olmuş olma kavramları
+  karıştırılmamalı.
+
+Yalnızca status != INVALIDATED kontrolünün
+yeterli olup olmadığını incele.
+
+------------------------------------------------------------
+AŞAMA 0 DURMA KURALI
+------------------------------------------------------------
+
+Kritik hata tespit edilirse:
+
+1. Negatif testle kanıtla.
+2. Kök nedeni raporla.
+3. Faz 4E-A geliştirmesine BAŞLAMA.
+4. Mevcut domain motorlarını kendiliğinden değiştirme.
+5. Kullanıcı onayı bekle.
+
+İki kontrol de başarılıysa geliştirmeye devam et.
+
+============================================================
+AŞAMA 1 — ICT STRATEJİ OPERASYONEL TANIMI
+============================================================
+
+Faz 4D'deki mevcut iki setup türü korunacak:
+
+1. ICT_REVERSAL
+2. ICT_CONTINUATION
+
+Yeni strateji motoru bu setup'ları yeniden
+tespit etmeye çalışmamalı.
+
+Mevcut:
+
+detect_ict_setup_candidates()
+
+çıktılarını kullanmalı.
+
+Strateji yönü:
+
+Bullish setup -> LONG plan direction
+Bearish setup -> SHORT plan direction
+
+Ancak:
+
+Setup bulunması otomatik olarak işlem açılması
+anlamına gelmez.
+
+Her setup önce giriş uygunluk denetiminden geçmeli.
+
+------------------------------------------------------------
+1.1. ICT REVERSAL
+------------------------------------------------------------
+
+LONG REVERSAL:
+
+- Teyitli Sell-Side Liquidity Sweep
+- Bullish MSS_CONFIRMED
+- Yön uyumlu displacement
+- Geçerli bullish fiyat bölgesi
+- PIT uygunluğu
+- Veri kalitesi
+
+SHORT REVERSAL:
+
+- Teyitli Buy-Side Liquidity Sweep
+- Bearish MSS_CONFIRMED
+- Yön uyumlu displacement
+- Geçerli bearish fiyat bölgesi
+- PIT uygunluğu
+- Veri kalitesi
+
+Buradaki olay bağlantıları Faz 4D motorundan
+miras alınmalı.
+
+Yeni motor farklı veya gevşek MSS/FVG
+ilişkilendirmesi oluşturamaz.
+
+------------------------------------------------------------
+1.2. ICT CONTINUATION
+------------------------------------------------------------
+
+LONG CONTINUATION:
+
+- Teyitli Bullish BOS
+- Yön uyumlu displacement
+- Geçerli bullish FVG veya OB
+- Aktif fiyat bölgesi
+
+SHORT CONTINUATION:
+
+- Teyitli Bearish BOS
+- Yön uyumlu displacement
+- Geçerli bearish FVG veya OB
+- Aktif fiyat bölgesi
+
+CHoCH veya MSS_CANDIDATE tek başına
+işlem planı oluşturamaz.
+
+============================================================
+AŞAMA 2 — GİRİŞ PLANI TİPLERİ
+============================================================
+
+Aşağıdaki giriş yaklaşımlarını destekle:
+
+1. ZONE_LIMIT_REFERENCE
+2. ZONE_MIDPOINT_REFERENCE
+3. CONFIRMED_REACTION_REFERENCE
+
+Bunlar gerçek emir değildir.
+
+------------------------------------------------------------
+2.1. ZONE_LIMIT_REFERENCE
+------------------------------------------------------------
+
+Geçerli fiyat bölgesinin girişe yakın sınırını
+referans al.
+
+Bullish etkin yön:
+
+Proximal boundary = zone_top
+
+Bearish etkin yön:
+
+Proximal boundary = zone_bottom
+
+IFVG için orijinal yön değil,
+PIT anındaki effective_direction kullanılmalı.
+
+Plan üretilirken referans fiyatın hangi
+bölgeden türetildiği açıkça kaydedilmeli.
+
+------------------------------------------------------------
+2.2. ZONE_MIDPOINT_REFERENCE
+------------------------------------------------------------
+
+Referans giriş seviyesi:
+
+entry_reference_price =
+(zone_bottom + zone_top) / Decimal("2")
+
+Kesin Decimal aritmetiği kullanılmalı.
+
+Bu seviye gerçek emir fiyatı veya
+gerçekleşmiş alış/satış fiyatı değildir.
+
+------------------------------------------------------------
+2.3. CONFIRMED_REACTION_REFERENCE
+------------------------------------------------------------
+
+Fiyatın bölgeye teması tespit edilmeli.
+
+Temas yalnızca kapanmış mum üzerinden
+doğrulanmalı.
+
+İlgili FVG Respect veya teyitli reaksiyon
+olayı mevcutsa kullanılmalı.
+
+Reaction confirmation gerçekleşmeden
+CONFIRMED_REACTION koşulu sağlanmış sayılmamalı.
+
+Gelecekteki reaksiyon geçmişe taşınmamalı.
+
+Reaksiyon teyidi sonrasında hesaplanan
+referans fiyat ile gerçekleşmiş işlem fiyatı
+birbirine karıştırılmamalı.
+
+Henüz bilinmeyen sonraki mum açılışı,
+geçmiş karar anında kullanılamaz.
+
+============================================================
+AŞAMA 3 — GİRİŞ BÖLGESİ SEÇİMİ
+============================================================
+
+Kaynak bölge tipleri:
+
+- NORMAL_FVG
+- INVERTED_FVG
+- ORDER_BLOCK
+- OTE_OVERLAP
+
+Bölge seçim politikası yapılandırılabilir olmalı.
+
+Önerilen enum:
+
+EntryZoneSelectionPolicy:
+
+- FVG_FIRST
+- ORDER_BLOCK_FIRST
+- NARROWEST_VALID_OVERLAP
+- EXPLICIT_ZONE_ID
+
+Varsayılan:
+
+FVG_FIRST
+
+Bunun bilimsel üstünlüğü olduğu iddia edilmemeli.
+Bu yalnızca belgelenmiş deterministik varsayımdır.
+
+Kurallar:
+
+1. Bölge karar anında bilinebilir olmalı.
+2. Yön uyumlu olmalı.
+3. Kullanılabilir durumda olmalı.
+4. Aynı instrument/source/timeframe/price_type
+   sözleşmesine uymalı.
+5. Bölge sınırları Decimal olmalı.
+6. zone_bottom < zone_top sağlanmalı.
+7. FVG oluşum zamanı gelecekte olmamalı.
+8. Order Block confirmation_time gelecekte olmamalı.
+9. Gelecekteki invalidation geçmiş bölgeyi
+   geriye dönük geçersizleştirmemeli.
+10. Gerçekten invalidated olmuş bölge yeni planın
+    aktif giriş alanı olarak kullanılmamalı.
+
+Tercih edilen bölge uygun değilse
+yapılandırılmış fallback politikası uygulanabilir.
+
+Hiç uygun bölge yoksa zorla plan üretme.
+
+============================================================
+AŞAMA 4 — POINT-IN-TIME KARAR ANI
+============================================================
+
+Her işlem planı için ortak:
+
+as_of_utc
+
+kullanılmalı.
+
+Planın bilinebilirlik zamanı:
+
+plan_available_time =
+max(
+    setup_available_time,
+    selected_zone_available_time,
+    required_entry_evidence_available_times
+)
+
+olmalı.
+
+Yalnızca gerçekten zorunlu bileşenler
+bu hesaba dahil edilmeli.
+
+Zorunlu olmayan gelecekteki bir confluence
+geçmiş planı değiştirmemeli.
+
+Plan aşağıdaki koşul sağlanmadan
+görünür olamaz:
+
+plan_available_time <= as_of_utc
+
+Kapanmamış mum:
+
+is_closed=False
+
+olan veri giriş teyidinde kullanılmamalı.
+
+PARTIAL, sentetik, beklenmeyen kapalı seans
+ve mükerrer kayıt anomalileri taşıyan mumlar
+uygunluk denetiminden geçememeli.
+
+STRICT_PIT:
+
+VERIFIED olmayan tarihsel kayıtlar canlı
+karar verilebilir plan üretememeli.
+
+RESEARCH_ESTIMATED:
+
+Tarihsel Market-Data-Lab verisiyle araştırma
+amaçlı plan hesaplanabilmeli.
+
+Ancak sahte VERIFIED etiketi verilmemeli.
+
+knowledge_snapshot_time ve close_time
+aynı kavram olarak kullanılmamalı.
+
+effective_analysis_cutoff_utc gerçek veri
+kapsamını aşmamalı.
+
+============================================================
+AŞAMA 5 — DOMAIN MODELLERİ
+============================================================
+
+Mevcut mimariye göre saf bir strategy domain
+alt paketi oluştur.
+
+Önerilen konum:
+
+src/traderlab/domain/strategy/ict_trade_plan.py
+
+Ancak mevcut dizin yapısını incele.
+Zaten uygun bir strategy paketi varsa
+onu yeniden kullan.
+
+Önerilen tipler:
+
+TradePlanDirection:
+- LONG
+- SHORT
+
+TradePlanEntryMode:
+- ZONE_LIMIT_REFERENCE
+- ZONE_MIDPOINT_REFERENCE
+- CONFIRMED_REACTION_REFERENCE
+
+TradePlanStatus:
+- DRAFT
+- WAITING_FOR_RETRACEMENT
+- TOUCH_OBSERVED
+- REACTION_CONFIRMED
+- INVALIDATED
+- EXPIRED
+- BLOCKED
+
+TradePlanRejectionReason
+
+TradePlanConfig
+
+IctTradePlan
+
+TradePlanEvidence
+
+TradePlanLifecycleEvent
+
+TradePlanSummary
+
+Tüm modeller:
+
+@dataclass(frozen=True, slots=True)
+
+olmalı.
+
+Zaman damgaları UTC-aware olmalı.
+
+Fiyatlar Decimal olmalı.
+
+Her plan şu alanları taşımalı:
+
+- deterministic_trade_plan_id
+- source_setup_id
+- instrument_id
+- source_id
+- timeframe
+- price_type
+- d1_session_mode
+- setup_type
+- direction
+- entry_mode
+- entry_zone_id
+- entry_zone_type
+- entry_zone_bottom
+- entry_zone_top
+- entry_reference_price
+- entry_conditions
+- plan_status
+- plan_available_time
+- as_of_utc
+- last_evaluation_time
+- availability_confidence
+- related_event_ids
+- rejection_reasons
+- lifecycle_events
+
+Gerçekleşmiş emir, fill, PnL veya
+broker transaction alanı ekleme.
+
+============================================================
+AŞAMA 6 — PLAN DURUM MAKİNESİ
+============================================================
+
+DRAFT:
+
+Teyitli setup ve geçerli giriş bölgesi var.
+Plan analitik olarak oluşturulabilir.
+
+WAITING_FOR_RETRACEMENT:
+
+Fiyat henüz seçilen bölgeyi test etmemiş.
+
+TOUCH_OBSERVED:
+
+Karar anına kadar kapanmış bir mum seçilen
+bölgeye temas etmiş.
+
+REACTION_CONFIRMED:
+
+Yapılandırılan teyit koşulu karar anında
+tamamlanmış.
+
+INVALIDATED:
+
+Planı dayandıran bölge veya yapı
+geçersizleşmiş.
+
+EXPIRED:
+
+Yapılandırılan bekleme süresi dolmuş.
+
+BLOCKED:
+
+Veri kalitesi, PIT, yön veya metadata
+güvenliği nedeniyle uygun değil.
+
+ÖNEMLİ:
+
+TOUCH_OBSERVED gerçek emir dolumu değildir.
+
+REACTION_CONFIRMED kârlı işlem değildir.
+
+DRAFT veya WAITING_FOR_RETRACEMENT
+canlı AL/SAT emri değildir.
+
+OHLC verisinden bilinmeyen intrabar
+olay sırası uydurulamaz.
+
+============================================================
+AŞAMA 7 — GİRİŞ UYGUNLUĞU VE RED NEDENLERİ
+============================================================
+
+Her plan adayında zorunlu kontroller:
+
+1. Teyitli ICT setup var mı?
+2. Setup henüz invalidated/expired değil mi?
+3. Giriş bölgesi karar anında geçerli mi?
+4. Giriş bölgesi effective_direction ile uyumlu mu?
+5. Zone geometrisi geçerli mi?
+6. Olaylar aynı veri kaynağına mı ait?
+7. BID/ASK izolasyonu korunuyor mu?
+8. D1 seans modu doğru mu?
+9. Gerekli olaylar as_of anında biliniyor mu?
+10. Veri kalitesi uygun mu?
+
+Başarısızlıkta gerekçeli sonuç üret.
+
+Önerilen nedenler:
+
+- SETUP_NOT_CONFIRMED
+- SETUP_INVALIDATED
+- SETUP_EXPIRED
+- ENTRY_ZONE_MISSING
+- ENTRY_ZONE_INVALIDATED
+- ENTRY_ZONE_FULLY_MITIGATED
+- DIRECTION_MISMATCH
+- METADATA_MISMATCH
+- PRICE_TYPE_MISMATCH
+- TIMEFRAME_MISMATCH
+- FUTURE_INFORMATION
+- UNAVAILABLE_DATA
+- INSUFFICIENT_DATA
+- AMBIGUOUS_INTRABAR_ORDER
+
+Sonuçlar deterministik olmalı.
+
+============================================================
+AŞAMA 8 — FVG RESPECT ENTEGRASYONU
+============================================================
+
+Mevcut Faz 4C motorunu yeniden kullan.
+
+Yeni bir FVG Respect motoru oluşturma.
+
+İsteğe bağlı koşullar:
+
+- En az 1 teyitli respect
+- En az 2 teyitli respect
+- Belirli bir maksimum retest sayısı
+- Son reaksiyonun belirli süre içinde olması
+
+Ancak bunlar varsayılan zorunlu giriş şartları
+olmamalı.
+
+Her koşul yapılandırılabilir olmalı.
+
+Özellikle:
+
+max_reported_retests = 4
+
+sadece raporlama sınırıdır.
+
+Gerçek retest geçmişini kesme veya silme.
+
+Geçmişte 6/6 respect görülmesi,
+gelecekteki başarının %100 olacağı anlamına gelmez.
+
+Her respect olayı karar anında gerçekten
+teyit edilmiş olmalı.
+
+Normal FVG ve IFVG dönemleri ayrılmalı.
+
+============================================================
+AŞAMA 9 — FİYAT VE BID/ASK SEMANTİĞİ
+============================================================
+
+BID ve ASK veri serileri bağımsız analiz
+edilmeye devam etmeli.
+
+Ancak fiyat referansı ile brokerda
+gerçekleşebilecek işlem fiyatı karıştırılmamalı.
+
+Gerçek LONG işlemleri için ASK,
+SHORT işlemleri için BID kotasyonunun
+önemi dokümante edilmeli.
+
+Bu fazda gerçek emir yürütmesi olmadığından
+spread, slippage ve fill gerçekleşmiş gibi
+hesaplanmamalı.
+
+Eğer ilgili karar anında güvenilir eşzamanlı
+BID/ASK kotasyonu yoksa executable entry price
+iddiasında bulunma.
+
+Sadece analytical entry reference raporla.
+
+============================================================
+AŞAMA 10 — DETERMINİSTİK KİMLİK VE TEKRARLAMA
+============================================================
+
+Her planın ID'si kararlı olmalı.
+
+Önerilen bileşenler:
+
+- setup_id
+- entry_zone_id
+- entry_mode
+- config fingerprint
+
+Aynı veri ve yapılandırmada aynı plan ID
+üretilmeli.
+
+Bir Streamlit rerun veya domain fonksiyonu
+tekrar çağrıldığında duplicate plan oluşmamalı.
+
+Aynı setup için farklı yapılandırmalar
+ayrı plan varyantları olarak açıkça
+raporlanabilir.
+
+Plan sayısı ile benzersiz setup sayısı
+birbirine karıştırılmamalı.
+
+Tekrarlanan BID/ASK olayları bağımsız ekonomik
+işlem fırsatıymış gibi raporlanmamalı.
+
+============================================================
+AŞAMA 11 — AÇIKLANABİLİRLİK
+============================================================
+
+Her plan için açıklanabilir bir özet oluştur.
+
+Örnek:
+
+ICT TRADE PLAN — LONG
+
+Source Setup:
+ICT REVERSAL
+
+Structure:
+Bullish MSS Confirmed
+
+Liquidity:
+Sell-Side Sweep Confirmed
+
+Displacement:
+Bullish
+
+Entry Zone:
+Bullish FVG
+
+Entry Reference:
+Zone Midpoint
+
+Plan Status:
+WAITING_FOR_RETRACEMENT
+
+PIT:
+RESEARCH_ESTIMATED
+
+As Of:
+UTC Timestamp
+
+Bu yalnızca format örneğidir.
+
+Gerçek olay ID'leri kullanılmalı.
+
+Gerekli alanlar eksikse yapay veri üretme.
+
+Her açıklama şu soruları yanıtlamalı:
+
+- Plan neden oluşturuldu?
+- Hangi setup'tan üretildi?
+- Hangi giriş bölgesi seçildi?
+- Referans fiyat nasıl hesaplandı?
+- Hangi kurallar sağlandı?
+- Hangi koşullar hâlâ bekleniyor?
+- Plan hangi anda bilinebilir hale geldi?
+- Hangi olay planı geçersizleştirir?
+
+============================================================
+AŞAMA 12 — MİMARİ VE MODÜL SINIRLARI
+============================================================
+
+Önerilen fonksiyonlar:
+
+generate_ict_trade_plans()
+
+evaluate_trade_plan_entry_conditions()
+
+evaluate_trade_plan_lifecycle()
+
+filter_trade_plans_as_of()
+
+explain_trade_plan()
+
+summarize_trade_plans()
+
+Mevcut proje stiline göre isimler değişebilir.
+
+Domain katmanında:
+
+SQLAlchemy
+pandas
+Streamlit
+Plotly
+HTTP client
+broker API
+
+bağımlılığı olmamalı.
+
+Mevcut FVG, Swing, Liquidity Sweep, BOS,
+CHoCH, MSS, Displacement, OB, OTE ve
+ICT Setup motorları değiştirilmemeli.
+
+Yalnızca gerekli domain import/export
+bağlantılarını ekle.
+
+Dashboard koduna dokunma.
+
+============================================================
+AŞAMA 13 — ZORUNLU KABUL TESTLERİ
+============================================================
+
+Mevcut 758 testin tamamı korunmalı.
+
+En az 40 yeni test oluştur.
+
+Test kapsamı:
+
+1. basic_long_reversal_trade_plan
+2. basic_short_reversal_trade_plan
+3. basic_long_continuation_trade_plan
+4. basic_short_continuation_trade_plan
+5. unconfirmed_setup_cannot_generate_plan
+6. invalidated_setup_rejected
+7. expired_setup_rejected
+8. fvg_first_zone_selection
+9. order_block_first_zone_selection
+10. narrowest_overlap_selection
+11. explicit_zone_id_selection
+12. no_valid_zone_no_plan
+13. bullish_zone_proximal_boundary
+14. bearish_zone_proximal_boundary
+15. exact_decimal_midpoint
+16. ifvg_effective_direction_used
+17. no_plan_before_setup_available_time
+18. no_plan_before_zone_confirmation
+19. no_touch_before_plan_availability
+20. touch_detected_at_bar_close
+21. pending_retracement_status
+22. reaction_requires_confirmation
+23. future_reaction_hidden
+24. future_invalidation_hidden
+25. historical_as_of_reconstructs_plan
+26. bid_ask_isolation
+27. timeframe_isolation
+28. d1_session_mode_isolation
+29. strict_pit_rejects_estimated_history
+30. research_estimated_historical_plan
+31. partial_bar_rejection
+32. synthetic_bar_rejection
+33. duplicate_minute_quality_rejection
+34. unexpected_off_session_rejection
+35. unrelated_ob_rejected
+36. unrelated_fvg_rejected
+37. fully_mitigated_ob_not_active_entry
+38. historical_ob_not_retroactively_removed
+39. deterministic_plan_ids
+40. duplicate_plan_prevention
+41. no_fake_fill_event
+42. no_broker_order_generation
+43. no_position_sizing_or_pnl
+44. immutable_domain_models
+45. no_side_effects_on_input_objects
+46. empty_input_safe_result
+47. entry_price_derived_from_known_zone_only
+48. no_future_quote_leakage
+49. plan_count_vs_setup_count_reconciliation
+50. plan_explanation_matches_domain_events
+
+Testler yalnızca sentetik örneklerle
+sınırlı kalmamalı.
+
+Gerçek veri üzerinden de regresyon
+kanıtları hazırlanmalı.
+
+Gerçekte eklenen test sayısını dürüstçe raporla.
+
+============================================================
+AŞAMA 14 — GERÇEK XAUUSD DOĞRULAMASI
+============================================================
+
+Yerel gerçek M1 arşivi kullan.
+
+Tarih:
+
+2026-09-15 — 2026-10-15 UTC
+
+Fiyat türleri:
+
+BID
+ASK
+
+Zaman dilimleri:
+
+D1 NEW_YORK_1700
+D1 UTC_MIDNIGHT
+H4
+H2
+
+Salt okunur analiz yap.
+
+Rapor tablosu:
+
+price_type
+timeframe
+confirmed_ict_setups
+eligible_trade_plan_candidates
+long_plans
+short_plans
+waiting_for_retracement
+touch_observed
+reaction_confirmed
+invalidated
+expired
+blocked
+pit_rejected
+unique_plan_ids
+
+En az 10 gerçek plan varsa ayrıntılı
+örnek ver.
+
+10 örnek yoksa bulunan tüm örnekleri
+dürüstçe raporla.
+
+Her örnekte:
+
+- Plan ID
+- Setup ID
+- Direction
+- Entry Mode
+- Entry Zone
+- Entry Reference Price
+- Yapısal bağlantılar
+- FVG/OB ID
+- Plan Available Time
+- As Of UTC
+- Plan Status
+- Red gerekçeleri
+
+sunulmalı.
+
+Sayıları artırmak amacıyla kuralları gevşetme.
+
+============================================================
+AŞAMA 15 — KRONOLOJİK PIT REPLAY
+============================================================
+
+Gerçek veri üzerinde:
+
+1. Setup teyidinden önce
+2. Setup teyit anında
+3. Bölge kullanılabilir hale geldiğinde
+4. Bölgeye temastan önce
+5. Temas mumunun kapanışında
+6. Reaksiyon teyidi sonrasında
+7. İptal öncesinde
+8. İptal sonrasında
+
+plan durumlarını karşılaştır.
+
+Her snapshot'ta yalnızca o anda
+bilinen olaylar kullanılmalı.
+
+Gelecekteki veriler:
+
+- entry_reference_price
+- plan_status
+- selected_zone
+- confluence evidence
+- available_time
+
+alanlarını geçmişe dönük değiştiremez.
+
+============================================================
+AŞAMA 16 — TEST VE KALİTE DENETİMİ
+============================================================
+
+Aşağıdaki komutları çalıştır:
+
+python -m pytest -q
+
+ruff check src/ tests/
+
+ruff format --check src/ tests/
+
+mypy src/traderlab/
+
+Mypy bütün kaynak ağacını kapsamalı.
+
+Baz çizgisi:
+
+758 mevcut test.
+
+En az 40 yeni kabul testi.
+
+Nihai toplam yalnızca gerçek test çıktısından
+alınmalı.
+
+Başarısız test varsa nedenleri açıklanmalı.
+
+============================================================
+AŞAMA 17 — PERFORMANS VE KOD BÜTÜNLÜĞÜ
+============================================================
+
+Mevcut feature motorlarını yeniden kullan.
+
+Yeni motor için gereksiz M1 yüklemesi yapma.
+
+Aynı setup ve zone listelerini tekrar tekrar
+hesaplama.
+
+Benchmark:
+
+- Data Loading
+- Existing Feature Calculation
+- ICT Setup Assembly
+- Trade Plan Generation
+- Entry Condition Evaluation
+- PIT Filtering
+- Total Pipeline
+
+olarak raporlanmalı.
+
+Alt süreler ve toplam süre matematiksel
+olarak uzlaştırılmalı.
+
+Gereksiz performans optimizasyonu için mevcut
+domain mantığını değiştirme.
+
+============================================================
+AŞAMA 18 — NİHAİ RAPOR
+============================================================
+
+Rapor oluştur:
+
+docs/reports/phase-4e-a-ict-strategy-rules-report.md
+
+Raporda:
+
+1. Değiştirilen ve eklenen dosyalar
+2. Aşama 0 PIT ön denetimi
+3. Strateji operasyonel tanımları
+4. Giriş bölgesi seçim matematiği
+5. Entry reference modelleri
+6. Plan durum makinesi
+7. PIT ve bitemporal güvenlik
+8. BID/ASK izolasyonu
+9. FVG/IFVG/OB/OTE entegrasyonu
+10. FVG Respect bağlantısı
+11. Gerçek XAUUSD sonuçları
+12. Kronolojik PIT replay
+13. Test sonuçları
+14. Ruff/Mypy çıktıları
+15. Performans ölçümleri
+16. Bilinen sınırlamalar
+17. Kapsam dışında bırakılan özellikler
+
+yer almalı.
+
+============================================================
+KESİN MÜDAHALE SINIRLARI
+============================================================
+
+PostgreSQL'e INSERT, UPDATE veya DELETE yapma.
+
+Ham CSV verilerini değiştirme.
+
+Yeni piyasa verisi indirme.
+
+Git commit veya push yapma.
+
+Dashboard görünümünü değiştirme.
+
+Mevcut domain motorlarının semantiğini
+değiştirme.
+
+Stop-loss motoru oluşturma.
+
+Take-profit motoru oluşturma.
+
+Position sizing hesaplama.
+
+Risk budget hesaplama.
+
+Emir gönderme.
+
+Broker bağlantısı yapma.
+
+Gerçek fill simülasyonu oluşturma.
+
+PnL hesaplama.
+
+Backtest geliştirme.
+
+============================================================
+NİHAİ KABUL
+============================================================
+
+Bütün koşullar sağlanırsa:
+
+FAZ 4E-A:
+ACCEPTED — ICT STRATEGY RULES
+& TRADE PLAN GENERATION COMPLETE
+
+Kritik PIT veya veri kalitesi hatası varsa
+ACCEPTED bildirme.
+
+Geliştirme tamamlandığında DUR.
+
+Faz 4E-B Risk Management,
+Faz 4E-C Strategy Validation veya
+Faz 5 Backtesting çalışmalarına kullanıcıdan
+açık onay almadan BAŞLAMA.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-29T20:54:53+03:00.
+
+The user's current state is as follows:
+Active Document: c:\spring dersleri\workspace\DDO Uygulama\mobil-backend\client-adapter\src\main\java\com\inonu\clientadapter\dto\PbsListRequest.java (LANGUAGE_JAVA)
+Cursor is on line: 5
+Other open documents:
+- c:\spring dersleri\workspace\DDO Uygulama\mobil-frontend\.env (LANGUAGE_UNSPECIFIED)
+- c:\spring dersleri\workspace\DDO Uygulama\mobil-backend\client-adapter\src\main\java\com\inonu\clientadapter\dto\PbsListRequest.java (LANGUAGE_JAVA)
+Browser State:
+  Page 2EE392E246D48465F293179E4CE4A150 (TRADERLAB — XAUUSD Research Terminal) - http://localhost:8501/ [ACTIVE]
+    Viewport: 1707x811, Page Height: 810
+  Page 32FFD2073479017F5D488BF650AEB35F (Streamlit) - http://localhost:8501/
+    Viewport: 1707x811, Page Height: 810
+</ADDITIONAL_METADATA>

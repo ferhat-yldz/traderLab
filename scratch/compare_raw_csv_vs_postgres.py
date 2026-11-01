@@ -16,7 +16,11 @@ TIMESTAMPS = [
     # 2. 25 Aralık 2024 Noel açılışı
     ("2024-12-25 23:00:00", "2024_12", "25 Aralık 2024 Noel Akşamı İlk Açılış Barı"),
     # 3. 25 Aralık 2024 Noel aktif seansı (düzeltilen meşru flat bar)
-    ("2024-12-25 23:47:00", "2024_12", "25 Aralık 2024 Noel Açık Piyasa Düşük Volatilite (Flat BID)"),
+    (
+        "2024-12-25 23:47:00",
+        "2024_12",
+        "25 Aralık 2024 Noel Açık Piyasa Düşük Volatilite (Flat BID)",
+    ),
     # 4. 25 Aralık 2025 Noel açılışı
     ("2025-12-25 23:00:00", "2025_12", "25 Aralık 2025 Noel Akşamı İlk Açılış Barı"),
     # 5. 2024 Yaz normal işlem günü (ABD TÜFE saati)
@@ -36,6 +40,7 @@ TIMESTAMPS = [
     # 12. Veri arşivinin en son dakikası
     ("2026-10-19 13:59:00", "2026_10", "19 Ekim 2026 Arşiv Bitiş Sınırı (Son Bar)"),
 ]
+
 
 async def compare_csv_with_postgres():
     engine = create_db_engine()
@@ -92,23 +97,27 @@ async def compare_csv_with_postgres():
                     r = raw_df.iloc[0]
                     d = db_rows[p_type]
                     exact = (
-                        Decimal(str(r['open'])) == d[1] and
-                        Decimal(str(r['high'])) == d[2] and
-                        Decimal(str(r['low'])) == d[3] and
-                        Decimal(str(r['close'])) == d[4]
+                        Decimal(str(r["open"])) == d[1]
+                        and Decimal(str(r["high"])) == d[2]
+                        and Decimal(str(r["low"])) == d[3]
+                        and Decimal(str(r["close"])) == d[4]
                     )
-                    match_status = "BİREBİR EŞLEŞTİ (TAM SAYISAL EŞİTLİK)" if exact else "UYUŞMAZLIK!"
+                    match_status = (
+                        "BİREBİR EŞLEŞTİ (TAM SAYISAL EŞİTLİK)" if exact else "UYUŞMAZLIK!"
+                    )
                 else:
                     match_status = "UYUŞMAZLIK (Biri var biri yok)!"
 
-                comparison_rows.append({
-                    "timestamp_utc": dt_str + " UTC",
-                    "price_type": p_type,
-                    "case_description": desc,
-                    "raw_csv_ohlc": raw_ohlc,
-                    "postgres_ohlc": db_ohlc,
-                    "match_status": match_status
-                })
+                comparison_rows.append(
+                    {
+                        "timestamp_utc": dt_str + " UTC",
+                        "price_type": p_type,
+                        "case_description": desc,
+                        "raw_csv_ohlc": raw_ohlc,
+                        "postgres_ohlc": db_ohlc,
+                        "match_status": match_status,
+                    }
+                )
 
     df_out = pd.DataFrame(comparison_rows)
     out_csv = Path("docs/reports/phase_1c_raw_csv_vs_postgres_comparison.csv")
@@ -120,7 +129,10 @@ async def compare_csv_with_postgres():
     mismatches = df_out[~df_out["match_status"].str.contains("BİREBİR EŞLEŞTİ")]
     print(f"\nTotal Mismatches: {len(mismatches)}")
     assert len(mismatches) == 0, f"Found {len(mismatches)} mismatches!"
-    print(">>> TÜM 12 ZAMAN DAMGASI (24 KOTASYON) HAM CSV İLE POSTGRESQL ARASINDA BİREBİR EŞLEŞTİ! <<<")
+    print(
+        ">>> TÜM 12 ZAMAN DAMGASI (24 KOTASYON) HAM CSV İLE POSTGRESQL ARASINDA BİREBİR EŞLEŞTİ! <<<"
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(compare_csv_with_postgres())

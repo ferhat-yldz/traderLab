@@ -1,0 +1,138 @@
+<USER_REQUEST>
+TRADERLAB — FAZ 4E-A
+POINT-IN-TIME SAFE ICT STRATEGY RULES
+& TRADE PLAN GENERATION ENGINE
+
+ROL:
+Senior Python Software Architect,
+Quantitative Trading Systems Engineer,
+ICT/SMC Strategy Research Engineer,
+Financial Data Quality Auditor,
+Point-in-Time Data Integrity Architect.
+
+PROJE:
+TRADERLAB
+GitHub: https://github.com/ferhat-yldz/traderLab
+
+MEVCUT DURUM:
+FAZ 4D-K2: ACCEPTED — FINAL PIT INTEGRITY VERIFIED
+
+Son doğrulama baz çizgisi:
+758 başarılı pytest testi.
+Mypy: 71 kaynak dosyası temiz.
+Ruff Check: 0 hata.
+Ruff Format: 107 dosya standartlara uygun.
+
+Bu görev kapsamında Git commit/push YAPILMAYACAK.
+
+============================================================
+GENEL AMAÇ
+============================================================
+
+Faz 4D'de geliştirilen PIT güvenli ICT Setup Candidate
+& Confluence Engine çıktılarını kullanarak, potansiyel
+işlem senaryolarını deterministik ve açıklanabilir
+işlem planı taslaklarına dönüştüren saf domain motoru
+geliştir.
+
+Yeni motorun amacı:
+
+- Teyitli ICT setup'larını değerlendirmek.
+- İşlem yönünü belirlemek.
+- Giriş için uygun fiyat bölgesini seçmek.
+- Yapılandırılabilir giriş koşullarını uygulamak.
+- Koşulların hangi anda sağlandığını kaydetmek.
+- Henüz gerçekleşmemiş fiyat temaslarını bekleyen
+  koşul olarak göstermek.
+- Uygun olmayan setup'ları gerekçesiyle reddetmek.
+- Her karar için denetlenebilir olay referansları üretmek.
+
+ÖNEMLİ:
+
+Bu faz bir trade execution engine değildir.
+
+Gerçek emir gönderme.
+Broker API çağırma.
+Alım-satım emri açma veya kapatma.
+Gerçek işlem gerçekleşmiş gibi kayıt üretme.
+Backtest gerçekleştirme.
+PnL veya kazanma oranı hesaplama.
+
+Üretilen kayıtlar yalnızca analitik işlem planlarıdır.
+
+============================================================
+AŞAMA 0 — ZORUNLU FAZ 4D-K2 ÖN DENETİMİ
+============================================================
+
+GELİŞTİRMEYE B
+<truncated 22339 bytes>
+==================================================
+KESİN MÜDAHALE SINIRLARI
+============================================================
+
+PostgreSQL'e INSERT, UPDATE veya DELETE yapma.
+
+Ham CSV verilerini değiştirme.
+
+Yeni piyasa verisi indirme.
+
+Git commit veya push yapma.
+
+Dashboard görünümünü değiştirme.
+
+Mevcut domain motorlarının semantiğini
+değiştirme.
+
+Stop-loss motoru oluşturma.
+
+Take-profit motoru oluşturma.
+
+Position sizing hesaplama.
+
+Risk budget hesaplama.
+
+Emir gönderme.
+
+Broker bağlantısı yapma.
+
+Gerçek fill simülasyonu oluşturma.
+
+PnL hesaplama.
+
+Backtest geliştirme.
+
+============================================================
+NİHAİ KABUL
+============================================================
+
+Bütün koşullar sağlanırsa:
+
+FAZ 4E-A:
+ACCEPTED — ICT STRATEGY RULES
+& TRADE PLAN GENERATION COMPLETE
+
+Kritik PIT veya veri kalitesi hatası varsa
+ACCEPTED bildirme.
+
+Geliştirme tamamlandığında DUR.
+
+Faz 4E-B Risk Management,
+Faz 4E-C Strategy Validation veya
+Faz 5 Backtesting çalışmalarına kullanıcıdan
+açık onay almadan BAŞLAMA.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-29T20:54:53+03:00.
+
+The user's current state is as follows:
+Active Document: c:\spring dersleri\workspace\DDO Uygulama\mobil-backend\client-adapter\src\main\java\com\inonu\clientadapter\dto\PbsListRequest.java (LANGUAGE_JAVA)
+Cursor is on line: 5
+Other open documents:
+- c:\spring dersleri\workspace\DDO Uygulama\mobil-frontend\.env (LANGUAGE_UNSPECIFIED)
+- c:\spring dersleri\workspace\DDO Uygulama\mobil-backend\client-adapter\src\main\java\com\inonu\clientadapter\dto\PbsListRequest.java (LANGUAGE_JAVA)
+Browser State:
+  Page 2EE392E246D48465F293179E4CE4A150 (TRADERLAB — XAUUSD Research Terminal) - http://localhost:8501/ [ACTIVE]
+    Viewport: 1707x811, Page Height: 810
+  Page 32FFD2073479017F5D488BF650AEB35F (Streamlit) - http://localhost:8501/
+    Viewport: 1707x811, Page Height: 810
+</ADDITIONAL_METADATA>

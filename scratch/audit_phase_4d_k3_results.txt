@@ -1,0 +1,132 @@
+==============================================================================================================
+TRADERLAB FAZ 4D-K3 REAL XAUUSD DATA AUDIT
+Period: 2026-09-15 00:00 UTC to 2026-10-15 23:59 UTC
+==============================================================================================================
+
+>>> PRICE TYPE: BID (Loaded 31739 M1 candles)
+
+--- BID D1 NY ---
+Total Bars: 21 | Conf Breaks: 0 | Conf MSS: 0 | Total OBs: 0
+  [Default Config - FVG First]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+  [Prefer OB Over FVG Config]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+
+--- BID D1 UTC ---
+Total Bars: 26 | Conf Breaks: 0 | Conf MSS: 0 | Total OBs: 0
+  [Default Config - FVG First]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+  [Prefer OB Over FVG Config]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+
+--- BID H4 ---
+Total Bars: 141 | Conf Breaks: 7 | Conf MSS: 1 | Total OBs: 2
+  [Default Config - FVG First]:
+    Total Setups:        2
+    Zone is FVG:         2
+    Zone is OB:          0
+    With OB Confluence:  2
+  [Prefer OB Over FVG Config]:
+    Total Setups:        2
+    Zone is FVG:         0
+    Zone is OB:          2
+    With OB Confluence:  2
+    -> Setup XAUUSD:market_data_lab_m1_derived_h4:BID:H4:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20260925T080000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20260925T120000Z_3L3R | Zone: [4274.735 - 4315.545]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h4:BID:H4:R... | Type: REVERSAL BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h4_BID_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_BID_H4_SWING_LOW_20261013T000000Z_3L3R | Zone: [4144.175 - 4170.165]
+
+--- BID H2 ---
+Total Bars: 275 | Conf Breaks: 21 | Conf MSS: 1 | Total OBs: 9
+  [Default Config - FVG First]:
+    Total Setups:        11
+    Zone is FVG:         11
+    Zone is OB:          0
+    With OB Confluence:  8
+  [Prefer OB Over FVG Config]:
+    Total Setups:        11
+    Zone is FVG:         3
+    Zone is OB:          8
+    With OB Confluence:  8
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260922T080000Z_3L3R | Zone: [4333.005 - 4345.155]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260923T160000Z_3L3R | Zone: [4273.145 - 4296.595]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260925T180000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260925T140000Z_3L3R | Zone: [4282.465 - 4297.025]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20260930T060000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20260930T040000Z_3L3R | Zone: [4176.005 - 4201.145]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BEARISH_OB_20261002T120000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_LOW_20261002T000000Z_3L3R | Zone: [4174.465 - 4225.886]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BULLISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_OB_20261008T200000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T160000Z_3L3R | Zone: [4131.825 - 4136.115]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:R... | Type: REVERSAL BULLISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_OB_20261008T200000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_CHOCH_BULLISH_20261009T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261008T020000Z_3L3R | Zone: [4131.825 - 4136.115]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:BID:H2:C... | Type: CONTINUATION BULLISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BULLISH_OB_20261011T220000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_BOS_BULLISH_20261012T000000Z_XAUUSD_market_data_lab_m1_derived_h2_BID_H2_SWING_HIGH_20261009T040000Z_3L3R | Zone: [4183.485 - 4199.135]
+
+>>> PRICE TYPE: ASK (Loaded 31739 M1 candles)
+
+--- ASK D1 NY ---
+Total Bars: 21 | Conf Breaks: 0 | Conf MSS: 0 | Total OBs: 0
+  [Default Config - FVG First]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+  [Prefer OB Over FVG Config]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+
+--- ASK D1 UTC ---
+Total Bars: 26 | Conf Breaks: 0 | Conf MSS: 0 | Total OBs: 0
+  [Default Config - FVG First]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+  [Prefer OB Over FVG Config]:
+    Total Setups:        0
+    Zone is FVG:         0
+    Zone is OB:          0
+    With OB Confluence:  0
+
+--- ASK H4 ---
+Total Bars: 141 | Conf Breaks: 7 | Conf MSS: 1 | Total OBs: 2
+  [Default Config - FVG First]:
+    Total Setups:        2
+    Zone is FVG:         2
+    Zone is OB:          0
+    With OB Confluence:  2
+  [Prefer OB Over FVG Config]:
+    Total Setups:        2
+    Zone is FVG:         0
+    Zone is OB:          2
+    With OB Confluence:  2
+    -> Setup XAUUSD:market_data_lab_m1_derived_h4:ASK:H4:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_OB_20260925T080000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_SWING_LOW_20260925T120000Z_3L3R | Zone: [4275.295 - 4316.145]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h4:ASK:H4:R... | Type: REVERSAL BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_BEARISH_OB_20261014T000000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_CHOCH_BEARISH_20261014T040000Z_XAUUSD_market_data_lab_m1_derived_h4_ASK_H4_SWING_LOW_20261013T000000Z_3L3R | Zone: [4144.735 - 4170.725]
+
+--- ASK H2 ---
+Total Bars: 275 | Conf Breaks: 21 | Conf MSS: 1 | Total OBs: 9
+  [Default Config - FVG First]:
+    Total Setups:        11
+    Zone is FVG:         11
+    Zone is OB:          0
+    With OB Confluence:  8
+  [Prefer OB Over FVG Config]:
+    Total Setups:        11
+    Zone is FVG:         3
+    Zone is OB:          8
+    With OB Confluence:  8
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260923T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260923T120000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260922T080000Z_3L3R | Zone: [4333.735 - 4345.965]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260924T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260924T080000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260923T160000Z_3L3R | Zone: [4273.885 - 4297.345]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260925T180000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260928T000000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260925T140000Z_3L3R | Zone: [4283.185 - 4297.725]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20260930T060000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20260930T140000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20260930T040000Z_3L3R | Zone: [4176.715 - 4201.765]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BEARISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BEARISH_OB_20261002T120000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BEARISH_20261002T140000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_LOW_20261002T000000Z_3L3R | Zone: [4175.005 - 4228.715]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BULLISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BULLISH_OB_20261008T200000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BULLISH_20261009T020000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_HIGH_20261008T160000Z_3L3R | Zone: [4132.485 - 4136.765]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:R... | Type: REVERSAL BULLISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BULLISH_OB_20261008T200000Z_MSS_CANDIDATE_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_CHOCH_BULLISH_20261009T000000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_HIGH_20261008T020000Z_3L3R | Zone: [4132.485 - 4136.765]
+    -> Setup XAUUSD:market_data_lab_m1_derived_h2:ASK:H2:C... | Type: CONTINUATION BULLISH | OB ID: XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BULLISH_OB_20261011T220000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_BOS_BULLISH_20261012T000000Z_XAUUSD_market_data_lab_m1_derived_h2_ASK_H2_SWING_HIGH_20261009T040000Z_3L3R | Zone: [4185.115 - 4200.005]

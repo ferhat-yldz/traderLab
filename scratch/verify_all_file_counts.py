@@ -11,20 +11,22 @@ for y in years:
     for m in months:
         bid_file = DATA_DIR / "bid" / "m1" / f"xauusd_bid_m1_{y}_{m:02d}.csv"
         ask_file = DATA_DIR / "ask" / "m1" / f"xauusd_ask_m1_{y}_{m:02d}.csv"
-        
+
         bid_df = pd.read_csv(bid_file)
         ask_df = pd.read_csv(ask_file)
-        
+
         b_count = len(bid_df)
         a_count = len(ask_df)
-        
-        records.append({
-            "year": y,
-            "month": m,
-            "bid_count": b_count,
-            "ask_count": a_count,
-            "diff": a_count - b_count,
-        })
+
+        records.append(
+            {
+                "year": y,
+                "month": m,
+                "bid_count": b_count,
+                "ask_count": a_count,
+                "diff": a_count - b_count,
+            }
+        )
 
 df = pd.DataFrame(records)
 print("=== MONTHLY COUNTS ===")

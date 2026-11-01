@@ -5,7 +5,7 @@ from __future__ import annotations
 import enum
 import zoneinfo
 from dataclasses import dataclass
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 
 NEW_YORK_TZ = zoneinfo.ZoneInfo("America/New_York")
 
@@ -69,8 +69,10 @@ class XAUUSDTradingCalendar:
         if ny_dt.month == 12 and ny_dt.day == 25 and hour < self.sunday_open_hour_ny:
             return MarketSessionState.CLOSED_HOLIDAY
 
-        # Martin Luther King Jr. Day early close (2024-01-15 after 14:30 NY / 19:30 UTC)
-        if ny_dt.date() == date(2024, 1, 15) and ((hour > 14) or (hour == 14 and minute >= 30)):
+        # Martin Luther King Jr. Day early close (2024-01-15 after 14:30 NY / 19:30 UTC until evening reopen 18:00 NY)
+        if ny_dt.date() == date(2024, 1, 15) and (
+            (hour == 14 and minute >= 30) or (15 <= hour < self.sunday_open_hour_ny)
+        ):
             return MarketSessionState.CLOSED_HOLIDAY
 
         # 2. Weekend closures (Friday 17:00 NY through Sunday 18:00 NY)
@@ -88,6 +90,34 @@ class XAUUSDTradingCalendar:
             return MarketSessionState.CLOSED_DAILY_ROLLOVER
 
         return MarketSessionState.OPEN
+
+    def count_open_minutes(self, start_utc: datetime, end_utc: datetime) -> int:
+        """Calculate the exact number of active trading minutes within [start_utc, end_utc).
+
+        Iterates minute by minute across the half-open interval.
+        """
+        norm_start = (
+            start_utc.replace(tzinfo=UTC)
+            if start_utc.tzinfo is None
+            else start_utc.astimezone(UTC)
+        )
+        norm_end = (
+            end_utc.replace(tzinfo=UTC) if end_utc.tzinfo is None else end_utc.astimezone(UTC)
+        )
+        if norm_end <= norm_start:
+            return 0
+
+        cur = norm_start.replace(second=0, microsecond=0)
+        target = norm_end.replace(second=0, microsecond=0)
+        open_count = 0
+        step = timedelta(minutes=1)
+
+        while cur < target:
+            if self.is_market_open(cur):
+                open_count += 1
+            cur += step
+
+        return open_count
 
     def is_market_open(self, dt_utc: datetime) -> bool:
         """Return True if market is actively open for trading at given UTC time."""

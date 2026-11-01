@@ -11,13 +11,14 @@ from traderlab.infrastructure.database.session import create_db_engine
 from traderlab.infrastructure.providers.market_data_lab.csv_reader import read_m1_csv
 from traderlab.core.types import PriceType
 
+
 async def run_sql_verifications():
     engine = create_db_engine()
     results = {}
-    
+
     async with engine.connect() as conn:
         print("=== 1. POSTGRESQL VERİ BÜTÜNLÜĞÜ DOĞRULAMA SORGULARI ===")
-        
+
         # 1. Total counts by price_type
         q1 = """
         SELECT price_type, COUNT(*) 
@@ -154,6 +155,7 @@ async def run_sql_verifications():
         print("\n>>> BÜTÜN POSTGRESQL DOĞRULAMA KRİTERLERİ %100 GEÇTİ! <<<")
 
     return results
+
 
 if __name__ == "__main__":
     asyncio.run(run_sql_verifications())

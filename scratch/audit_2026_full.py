@@ -11,12 +11,14 @@ DATA_DIR = Path(r"C:\trader\traderLab\Market-Data-Lab\xauusd")
 
 results = []
 
+
 def calc_sha256(path: Path) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as f:
         while chunk := f.read(65536):
             h.update(chunk)
     return h.hexdigest()
+
 
 print("Auditing 2026 months (01 through 09)...")
 
@@ -34,11 +36,17 @@ for m in range(1, 10):
 
     bid_count = len(df_bid)
     ask_count = len(df_ask)
-    matched = (df_bid["timestamp"] == df_ask["timestamp"]).all() if bid_count == ask_count else False
+    matched = (
+        (df_bid["timestamp"] == df_ask["timestamp"]).all() if bid_count == ask_count else False
+    )
     dups = df_bid["timestamp"].duplicated().sum()
 
-    start_utc = datetime.fromtimestamp(df_bid["timestamp"].iloc[0] / 1000, tz=timezone.utc).strftime("%Y-%m-%d %H:%M")
-    end_utc = datetime.fromtimestamp(df_bid["timestamp"].iloc[-1] / 1000, tz=timezone.utc).strftime("%Y-%m-%d %H:%M")
+    start_utc = datetime.fromtimestamp(
+        df_bid["timestamp"].iloc[0] / 1000, tz=timezone.utc
+    ).strftime("%Y-%m-%d %H:%M")
+    end_utc = datetime.fromtimestamp(
+        df_bid["timestamp"].iloc[-1] / 1000, tz=timezone.utc
+    ).strftime("%Y-%m-%d %H:%M")
 
     diffs = df_bid["timestamp"].diff().dropna()
     eq_60k = (diffs == 60000).sum()
@@ -46,7 +54,7 @@ for m in range(1, 10):
 
     # Session classification / weekend check
     dts = pd.to_datetime(df_bid["timestamp"], unit="ms", utc=True)
-    dayofweek = dts.dt.dayofweek # 5 = Sat, 6 = Sun
+    dayofweek = dts.dt.dayofweek  # 5 = Sat, 6 = Sun
     hour = dts.dt.hour
 
     sat_rows = (dayofweek == 5).sum()
@@ -78,41 +86,54 @@ for m in range(1, 10):
     # Domain classification for synthetic %
     raw_bid_bars = read_m1_csv(bid_file, price_type=PriceType.BID)
     classified = classify_m1_series(raw_bid_bars)
-    from traderlab.infrastructure.providers.market_data_lab.bar_classifier import BarQualityClassification
-    synthetic_count = sum(1 for c in classified if c.classification == BarQualityClassification.SYNTHETIC_CARRY_FORWARD)
-    uncertain_count = sum(1 for c in classified if c.classification == BarQualityClassification.UNCERTAIN_STAGNANT)
+    from traderlab.infrastructure.providers.market_data_lab.bar_classifier import (
+        BarQualityClassification,
+    )
+
+    synthetic_count = sum(
+        1
+        for c in classified
+        if c.classification == BarQualityClassification.SYNTHETIC_CARRY_FORWARD
+    )
+    uncertain_count = sum(
+        1 for c in classified if c.classification == BarQualityClassification.UNCERTAIN_STAGNANT
+    )
     synthetic_pct = round((synthetic_count / len(classified)) * 100, 2)
     uncertain_pct = round((uncertain_count / len(classified)) * 100, 2)
 
-    results.append({
-        "year": 2026,
-        "month": m,
-        "bid_count": bid_count,
-        "ask_count": ask_count,
-        "matched": matched,
-        "dups": int(dups),
-        "start_utc": start_utc,
-        "end_utc": end_utc,
-        "eq_60k": int(eq_60k),
-        "gt_60k": int(gt_60k),
-        "policy": policy,
-        "sat_rows": int(sat_rows),
-        "sun_pre22_rows": int(sun_pre22_rows),
-        "sun_post22_rows": int(sun_post22_rows),
-        "min_price": float(min_price),
-        "max_price": float(max_price),
-        "min_spread": float(round(min_spread, 4)),
-        "max_spread": float(round(max_spread, 4)),
-        "avg_spread": float(round(avg_spread, 4)),
-        "neg_spreads": int(neg_spreads),
-        "synthetic_pct": synthetic_pct,
-        "uncertain_pct": uncertain_pct,
-        "bid_sz": bid_sz,
-        "ask_sz": ask_sz,
-        "bid_sha256": bid_sha,
-        "ask_sha256": ask_sha,
-    })
-    print(f"2026-{m:02d} done: rows={bid_count}, policy={policy}, max_spread={max_spread:.4f}, synthetic={synthetic_pct}%")
+    results.append(
+        {
+            "year": 2026,
+            "month": m,
+            "bid_count": bid_count,
+            "ask_count": ask_count,
+            "matched": matched,
+            "dups": int(dups),
+            "start_utc": start_utc,
+            "end_utc": end_utc,
+            "eq_60k": int(eq_60k),
+            "gt_60k": int(gt_60k),
+            "policy": policy,
+            "sat_rows": int(sat_rows),
+            "sun_pre22_rows": int(sun_pre22_rows),
+            "sun_post22_rows": int(sun_post22_rows),
+            "min_price": float(min_price),
+            "max_price": float(max_price),
+            "min_spread": float(round(min_spread, 4)),
+            "max_spread": float(round(max_spread, 4)),
+            "avg_spread": float(round(avg_spread, 4)),
+            "neg_spreads": int(neg_spreads),
+            "synthetic_pct": synthetic_pct,
+            "uncertain_pct": uncertain_pct,
+            "bid_sz": bid_sz,
+            "ask_sz": ask_sz,
+            "bid_sha256": bid_sha,
+            "ask_sha256": ask_sha,
+        }
+    )
+    print(
+        f"2026-{m:02d} done: rows={bid_count}, policy={policy}, max_spread={max_spread:.4f}, synthetic={synthetic_pct}%"
+    )
 
 out_csv = Path(r"C:\trader\traderLab\traderlab\docs\reports\audit_2026_summary.csv")
 keys = list(results[0].keys())

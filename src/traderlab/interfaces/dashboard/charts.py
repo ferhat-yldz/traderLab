@@ -3,13 +3,26 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
+from decimal import Decimal
 from typing import Any
 
 import plotly.graph_objects as go
 
 from traderlab.core.types import Timeframe
 from traderlab.domain.instruments.candle import Candle
+from traderlab.domain.market_structure.fvg import (
+    FvgDirection,
+    FvgFillState,
+    FvgLifecycleEvent,
+    FvgValidityState,
+    FvgZone,
+)
+from traderlab.interfaces.dashboard.fvg_view_filter import (
+    FvgVisibilityMode,
+    calculate_effective_direction,
+    filter_fvg_records_for_view,
+)
 
 
 def create_candlestick_figure(
@@ -25,6 +38,16 @@ def create_candlestick_figure(
     timeframe: Timeframe | None = None,
     range_preset: str | None = None,
     show_rangeselector: bool = False,
+    fvg_records: Sequence[tuple[FvgZone, FvgLifecycleEvent | None]] | None = None,
+    show_bullish_fvg: bool = True,
+    show_bearish_fvg: bool = True,
+    show_ce_line: bool = True,
+    show_ifvg: bool = True,
+    active_fvg_only: bool = True,
+    max_fvg_zones: int = 16,
+    fvg_visibility_mode: FvgVisibilityMode | str = FvgVisibilityMode.PROFESSIONAL,
+    selected_fvg_id: str | None = None,
+    as_of_utc: datetime | None = None,
 ) -> go.Figure:
     """Construct an interactive TradingView-styled Plotly financial chart.
 
@@ -387,7 +410,346 @@ def create_candlestick_figure(
             x=0.98,
             font=dict(color="#b2b5be", size=11),
         ),
-        hovermode="x unified",
+        hovermode="closest" if fvg_records else "x unified",
     )
+
+    if fvg_records:
+        current_price = Decimal(str(closes[-1])) if closes else None
+        p_min = Decimal(str(min(lows))) if lows else None
+        p_max = Decimal(str(max(highs))) if highs else None
+
+        if isinstance(fvg_visibility_mode, str):
+            try:
+                vis_mode = FvgVisibilityMode(fvg_visibility_mode)
+            except ValueError:
+                vis_mode = FvgVisibilityMode.PROFESSIONAL
+        else:
+            vis_mode = fvg_visibility_mode
+
+        if not active_fvg_only and vis_mode == FvgVisibilityMode.PROFESSIONAL:
+            vis_mode = FvgVisibilityMode.ALL_HISTORICAL
+
+        view_res = filter_fvg_records_for_view(
+            fvg_records,
+            current_price=current_price,
+            mode=vis_mode,
+            max_zones=max_fvg_zones,
+            selected_fvg_id=selected_fvg_id,
+            show_bullish=show_bullish_fvg,
+            show_bearish=show_bearish_fvg,
+            show_ifvg=show_ifvg,
+            as_of_utc=as_of_utc,
+            price_min=p_min,
+            price_max=p_max,
+        )
+
+        add_fvg_overlays(
+            fig,
+            view_res.visible_records,
+            candles,
+            show_bullish=show_bullish_fvg,
+            show_bearish=show_bearish_fvg,
+            show_ce_line=show_ce_line,
+            show_ifvg=show_ifvg,
+            active_only=active_fvg_only,
+            max_zones=max_fvg_zones,
+            as_of_utc=as_of_utc,
+        )
+
+    return fig
+
+
+def add_fvg_overlays(
+    fig: go.Figure,
+    fvg_records: Sequence[tuple[FvgZone, FvgLifecycleEvent | None]],
+    candles: Sequence[Candle],
+    *,
+    show_bullish: bool = True,
+    show_bearish: bool = True,
+    show_ce_line: bool = True,
+    show_ifvg: bool = True,
+    active_only: bool = True,
+    max_zones: int = 50,
+    as_of_utc: datetime | None = None,
+) -> go.Figure:
+    """Add Fair Value Gap (FVG) and Inversion FVG (IFVG) overlays to a Plotly candlestick figure.
+
+    Visual & Quantitative Architecture:
+    - Bullish FVG: Soft mint translucent price box (rgba(38, 166, 154, 0.10))
+    - Bearish FVG: Soft red translucent price box (rgba(239, 83, 80, 0.10))
+    - Consequent Encroachment (CE): 50% midpoint horizontal line (width=1.0, subtle opacity)
+    - Inversion FVG (IFVG): Distinct dashed border and purple tint (rgba(168, 85, 247, 0.09))
+    - Point-in-Time Timing: Zone strictly begins at fvg.formation_time (candle_3.close_time),
+      never rendered before the 3rd candle closes.
+    - Interactive Tooltips: Clean, vertical metadata displaying zone bounds, CE, width, fill state,
+      validity state, and inversion details without obstructing price action.
+    """
+    if not fvg_records or not candles:
+        return fig
+
+    last_candle_close = candles[-1].close_time
+
+    # Filter records based on user preferences
+    filtered_records: list[tuple[FvgZone, FvgLifecycleEvent | None]] = []
+    for fvg, event in fvg_records:
+        if fvg.is_bullish and not show_bullish:
+            continue
+        if fvg.is_bearish and not show_bearish:
+            continue
+
+        is_inverted = event is not None and event.validity_state == FvgValidityState.INVERTED
+        if is_inverted and not show_ifvg:
+            continue
+
+        if (
+            active_only
+            and event is not None
+            and event.validity_state == FvgValidityState.INVALIDATED
+        ):
+            continue
+
+        filtered_records.append((fvg, event))
+
+    if len(filtered_records) > max_zones:
+        filtered_records = filtered_records[-max_zones:]
+
+    # Data structures for category hover traces and batch shapes
+    cat_data: dict[str, dict[str, list[Any]]] = {
+        "Bullish FVG": {"x": [], "y": [], "hover": []},
+        "Bearish FVG": {"x": [], "y": [], "hover": []},
+        "IFVG (Inverted)": {"x": [], "y": [], "hover": []},
+    }
+    new_shapes: list[dict[str, Any]] = []
+
+    for fvg, event in filtered_records:
+        is_inverted = event is not None and event.validity_state == FvgValidityState.INVERTED
+        is_invalidated = event is not None and event.validity_state == FvgValidityState.INVALIDATED
+        is_fully_filled_normal = (
+            event is not None and event.fill_state == FvgFillState.FULLY_FILLED and not is_inverted
+        )
+
+        # 1. Coordinate boundaries
+        # Formation time is strictly candle_3.close_time (Point-in-Time constraint)
+        x0 = fvg.formation_time
+        if is_invalidated and event is not None and event.invalidated_by_candle_open is not None:
+            x1 = event.invalidated_by_candle_open
+        elif is_fully_filled_normal and event is not None and event.bar_close_time is not None:
+            x1 = event.bar_close_time
+        else:
+            x1 = last_candle_close
+
+        if as_of_utc is not None and x1 > as_of_utc:
+            x1 = as_of_utc
+
+        # Ensure non-zero width for rendering
+        if x1 <= x0:
+            bar_delta = (
+                candles[-1].close_time - candles[-1].open_time
+                if len(candles) >= 1
+                else timedelta(minutes=1)
+            )
+            x1 = x0 + bar_delta
+
+        y0 = float(fvg.bottom_price)
+        y1 = float(fvg.top_price)
+        ce = float(fvg.ce_price)
+
+        # 2. Segments generation (Strict Point-in-Time styling for IFVG)
+        # If inverted, the zone was respected in its original directional role from formation
+        # until inversion. Only from inversion onwards does it take the purple dashed IFVG styling.
+        t_inversion = (
+            event.inversion_confirmed_at or event.invalidated_by_candle_open
+            if (is_inverted and event is not None)
+            else None
+        )
+
+        segments: list[dict[str, Any]] = []
+
+        if is_inverted and t_inversion is not None and x0 < t_inversion < x1:
+            # Segment A: Prior period (formation to inversion) in original Bullish/Bearish style
+            orig_is_bull = fvg.is_bullish
+            segments.append(
+                {
+                    "x0": x0,
+                    "x1": t_inversion,
+                    "fill": "rgba(38, 166, 154, 0.10)"
+                    if orig_is_bull
+                    else "rgba(239, 83, 80, 0.10)",
+                    "border": "rgba(38, 166, 154, 0.65)"
+                    if orig_is_bull
+                    else "rgba(239, 83, 80, 0.65)",
+                    "dash": "solid",
+                    "ce_color": "rgba(38, 166, 154, 0.50)"
+                    if orig_is_bull
+                    else "rgba(239, 83, 80, 0.50)",
+                    "badge": "🟢 BULLISH FVG" if orig_is_bull else "🔴 BEARISH FVG",
+                    "status": "VALID (Pre-Inversion)",
+                    "cat": "Bullish FVG" if orig_is_bull else "Bearish FVG",
+                }
+            )
+            # Segment B: Post-inversion period in IFVG purple dashed style
+            segments.append(
+                {
+                    "x0": t_inversion,
+                    "x1": x1,
+                    "fill": "rgba(168, 85, 247, 0.09)",
+                    "border": "#a855f7",
+                    "dash": "dash",
+                    "ce_color": "rgba(168, 85, 247, 0.50)",
+                    "badge": "🟣 INVERSION FVG (IFVG)",
+                    "status": f"INVERTED (Teyit: {t_inversion.strftime('%H:%M UTC')})",
+                    "cat": "IFVG (Inverted)",
+                }
+            )
+        elif is_inverted:
+            # Entire visible portion is inverted
+            segments.append(
+                {
+                    "x0": x0,
+                    "x1": x1,
+                    "fill": "rgba(168, 85, 247, 0.09)",
+                    "border": "#a855f7",
+                    "dash": "dash",
+                    "ce_color": "rgba(168, 85, 247, 0.50)",
+                    "badge": "🟣 INVERSION FVG (IFVG)",
+                    "status": "INVERTED",
+                    "cat": "IFVG (Inverted)",
+                }
+            )
+        elif is_invalidated:
+            segments.append(
+                {
+                    "x0": x0,
+                    "x1": x1,
+                    "fill": "rgba(100, 116, 139, 0.08)",
+                    "border": "rgba(100, 116, 139, 0.35)",
+                    "dash": "dot",
+                    "ce_color": "rgba(100, 116, 139, 0.40)",
+                    "badge": "🟢 BULLISH FVG" if fvg.is_bullish else "🔴 BEARISH FVG",
+                    "status": "INVALIDATED",
+                    "cat": "Bullish FVG" if fvg.is_bullish else "Bearish FVG",
+                }
+            )
+        else:
+            orig_is_bull = fvg.is_bullish
+            segments.append(
+                {
+                    "x0": x0,
+                    "x1": x1,
+                    "fill": "rgba(38, 166, 154, 0.10)"
+                    if orig_is_bull
+                    else "rgba(239, 83, 80, 0.10)",
+                    "border": "rgba(38, 166, 154, 0.65)"
+                    if orig_is_bull
+                    else "rgba(239, 83, 80, 0.65)",
+                    "dash": "solid",
+                    "ce_color": "rgba(38, 166, 154, 0.50)"
+                    if orig_is_bull
+                    else "rgba(239, 83, 80, 0.50)",
+                    "badge": "🟢 BULLISH FVG" if orig_is_bull else "🔴 BEARISH FVG",
+                    "status": "VALID",
+                    "cat": "Bullish FVG" if orig_is_bull else "Bearish FVG",
+                }
+            )
+
+        fill_label = event.fill_state.value if event else "UNTOUCHED"
+        fill_pct = float(event.fill_ratio * 100) if event else 0.0
+        eff_dir = calculate_effective_direction(fvg, event)
+        eff_text = "🟢 Bullish Destek" if eff_dir == FvgDirection.BULLISH else "🔴 Bearish Direnç"
+        orig_text = "Bullish" if fvg.is_bullish else "Bearish"
+        type_label = (
+            "🟣 Inversion FVG (IFVG)"
+            if is_inverted
+            else ("🟢 Bullish FVG" if fvg.is_bullish else "🔴 Bearish FVG")
+        )
+        inv_line = (
+            f"<br><b>Teyit Zamanı:</b> {t_inversion.strftime('%Y-%m-%d %H:%M UTC')}"
+            if (is_inverted and t_inversion)
+            else ""
+        )
+
+        for seg in segments:
+            # 3. Add background rectangular imbalance box
+            new_shapes.append(
+                dict(
+                    type="rect",
+                    x0=seg["x0"],
+                    x1=seg["x1"],
+                    y0=y0,
+                    y1=y1,
+                    fillcolor=seg["fill"],
+                    line=dict(color=seg["border"], width=1.0, dash=seg["dash"]),
+                    layer="below",
+                )
+            )
+
+            # 4. Add 50% Consequent Encroachment (CE) line shape
+            if show_ce_line:
+                new_shapes.append(
+                    dict(
+                        type="line",
+                        x0=seg["x0"],
+                        x1=seg["x1"],
+                        y0=ce,
+                        y1=ce,
+                        line=dict(color=seg["ce_color"], width=1.0, dash="dashdot"),
+                        layer="below",
+                    )
+                )
+
+            # 5. Build clean, compact vertical hover metadata tooltip
+            hover_text = (
+                f"<b>{type_label}</b><br>"
+                f"<b>Zaman Dilimi:</b> {fvg.timeframe.name}<br>"
+                f"<b>Orijinal Yön:</b> {orig_text}<br>"
+                f"<b>Etkin Yön:</b> {eff_text}<br>"
+                f"<b>Oluşum:</b> {fvg.formation_time.strftime('%Y-%m-%d %H:%M UTC')}<br>"
+                f"<b>Üst Sınır:</b> ${fvg.top_price:.3f}<br>"
+                f"<b>Alt Sınır:</b> ${fvg.bottom_price:.3f}<br>"
+                f"<b>CE (%50):</b> ${fvg.ce_price:.3f}<br>"
+                f"<b>Dolum:</b> {fill_label} ({fill_pct:.1f}%)<br>"
+                f"<b>Durum:</b> {seg['status']}"
+                f"{inv_line}"
+            )
+
+            cat_data[seg["cat"]]["x"].extend([seg["x0"], seg["x1"], None])
+            cat_data[seg["cat"]]["y"].extend([ce, ce, None])
+            cat_data[seg["cat"]]["hover"].extend([hover_text, hover_text, None])
+
+    # Assign all batched FVG and CE shapes in a single layout update
+    if new_shapes:
+        existing_shapes = list(fig.layout.shapes or ())
+        fig.layout.shapes = existing_shapes + new_shapes
+
+    # 6. Add unified category Scatter traces for interactive hover & legend control
+    cat_styles = {
+        "Bullish FVG": dict(color="#26a69a", dash="solid"),
+        "Bearish FVG": dict(color="#ef5350", dash="solid"),
+        "IFVG (Inverted)": dict(color="#a855f7", dash="dash"),
+    }
+
+    for cat_name, data in cat_data.items():
+        if data["x"]:
+            fig.add_trace(
+                go.Scatter(
+                    x=data["x"],
+                    y=data["y"],
+                    mode="lines",
+                    name=cat_name,
+                    line=dict(
+                        color=cat_styles[cat_name]["color"],
+                        width=1.0,
+                        dash=cat_styles[cat_name]["dash"],
+                    ),
+                    hoverinfo="text",
+                    hovertext=data["hover"],
+                    hoverlabel=dict(
+                        bgcolor="#131722",
+                        font_size=11,
+                        font_family="Roboto, Inter, sans-serif",
+                    ),
+                    showlegend=True,
+                )
+            )
 
     return fig
